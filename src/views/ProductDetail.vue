@@ -105,7 +105,9 @@ export default {
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 1300);
       }
     });
 

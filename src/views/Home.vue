@@ -29,17 +29,18 @@ export default {
     onMounted(async () => {
       try {
         await productStore.fetchProducts();
+      } catch (error) {
+        console.error("Error fetching product:", error);
       } finally {
         setTimeout(() => {
-        loading.value = false;
-      }, 1300);
+          loading.value = false;
+        }, 1300);
       }
     });
 
     return {
       loading,
       products,
-      
     };
   },
 };
