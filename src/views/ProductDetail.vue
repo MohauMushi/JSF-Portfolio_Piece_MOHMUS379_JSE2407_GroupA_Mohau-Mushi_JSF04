@@ -9,12 +9,13 @@
       </router-link>
     </div>
 
-    <div
-      v-if="product"
-      class="flex-grow flex justify-center items-start p-4 overflow-auto"
-    >
+    <div class="flex-grow flex justify-center items-start p-4 overflow-auto">
       <div class="w-full max-w-4xl">
-        <div class="bg-white md:flex rounded-lg shadow-md p-6">
+        <ProductDetailSkeleton :show="loading" />
+        <div
+          v-if="!loading && product"
+          class="bg-white md:flex rounded-lg shadow-md p-6"
+        >
           <div class="flex flex-col md:flex-row">
             <div
               class="md:w-1/2 flex items-center justify-center mb-4 md:mb-0 m-"
@@ -47,24 +48,33 @@
                   reviews)</span
                 >
               </div>
-              <div
+              <p
                 class="text-gray-500 px-2 py-1 bg-indigo-100 rounded-md text-xs font-medium mb-2 inline-block"
               >
                 {{ product.category }}
-              </div>
+              </p>
               <p class="text-black font-bold mb-2 text-xl">
                 ${{ product.price.toFixed(2) }}
               </p>
               <button
+                @click="addToCart"
                 class="inline-flex items-center justify-center px-3 py-2 mt-2 bg-[#354961] text-white text-sm font-medium rounded-md hover:bg-[#415a77] transition-colors duration-300"
               >
                 Add To Cart
               </button>
               <h3 class="text-black font-semibold mt-4 mb-2">Description</h3>
-              <p class="text-gray-600">{{ product.description }}</p>
+              <p class="text-gray-600">
+                {{ product.description }}
+              </p>
             </div>
           </div>
         </div>
+        <p
+          v-if="!loading && !product"
+          class="text-center text-red-500 font-extrabold p-4 flex items-center justify-center"
+        >
+          Oops! It looks like the product you're looking for isn't available.
+        </p>
       </div>
     </div>
   </div>
@@ -74,22 +84,39 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useProductStore } from "../store/ProductStore";
+import ProductDetailSkeleton from "../components/ProductDetailSkeleton.vue";
 
 export default {
   name: "ProductDetail",
+  components: {
+    ProductDetailSkeleton,
+  },
 
   setup() {
     const route = useRoute();
     const productStore = useProductStore();
     const product = ref(null);
+    const loading = ref(true);
 
     onMounted(async () => {
       const id = route.params.id;
-      product.value = await productStore.fetchProductById(id);
+      try {
+        product.value = await productStore.fetchProductById(id);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        loading.value = false;
+      }
     });
+
+    const addToCart = () => {
+      // console.log("Added to cart:", product.value.title);
+    };
 
     return {
       product,
+      loading,
+      addToCart,
     };
   },
 };
