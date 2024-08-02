@@ -12,6 +12,9 @@
         <h2 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
           {{ product.title }}
         </h2>
+        <!-- Star Rating  -->
+        <StarRating :rating="product.rating.rate"/>
+        <!-- End Star Rating -->
         <p class="text-xl font-bold text-[#415a77] mb-2">
           ${{ product.price.toFixed(2) }}
         </p>
@@ -56,8 +59,13 @@
 </template>
 
 <script>
+import StarRating from './StarRating.vue';
+
 export default {
   name: "ProductCard",
+  components: {
+    StarRating
+  },
   props: {
     product: {
       type: Object,
