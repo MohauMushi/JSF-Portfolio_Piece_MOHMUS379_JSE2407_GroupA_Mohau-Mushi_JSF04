@@ -5,7 +5,7 @@
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <!-- Logo and brand name -->
-        <a to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <router-link :to="{ name: 'Home' }" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="/public/accusoft-svgrepo-com.svg"
             class="h-8"
@@ -16,7 +16,7 @@
           >
             FluxStore
           </span>
-        </a>
+        </router-link>
 
         <!-- Mobile menu button -->
         <button
@@ -54,17 +54,17 @@
           >
             <!-- Wishlist link -->
             <li>
-              <a
-                to="#wishlist"
+              <router-link
+                :to="{}"
                 class="text-white hover:bg-teal-600 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
               >
                 WishList
-              </a>
+              </router-link>
             </li>
             <!-- Cart icon (visible on larger screens) -->
             <li>
-              <a
-                to="#cart"
+              <router-link
+                :to="{}"
                 class="hidden lg:block md:block relative text-white px-2 py-1 hover:bg-teal-600 rounded-md"
               >
                 <div class="absolute -top-2 -right-2">
@@ -90,21 +90,21 @@
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-              </a>
+              </router-link>
             </li>
             <!-- Cart text link (visible on smaller screens) -->
             <li>
-              <a
-                to="#cart"
+              <router-link
+                :to="{}"
                 class="lg:hidden md:hidden block py-2 px-3 text-white rounded-md hover:bg-teal-600 md:hover:bg-transparent md:border-0 md:hover:text-teal-300 md:p-0"
               >
                 Cart
-              </a>
+              </router-link>
             </li>
             <!-- Login icon -->
             <li>
-              <a
-                to="#login"
+              <router-link
+                :to="{ name: 'Login' }"
                 class="block py-2 px-1 text-white hover:bg-teal-600 rounded-md md:border-0 md:p-1.5"
               >
                 <span class="sr-only">Login</span>
@@ -123,7 +123,7 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-              </a>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -133,8 +133,17 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+
 export default {
   name: "Header",
+  setup() {
+    const router = useRouter();
+
+    return {
+      router,
+    };
+  },
   data() {
     return {
       isOpen: false,
