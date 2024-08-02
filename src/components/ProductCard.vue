@@ -30,7 +30,7 @@
             <!-- Wishlist Button -->
             <button class="p-1 rounded-full transition-colors duration-300">
               <svg
-                class="h-6 w-6 hover:text-red-500"
+                class="h-6 w-6 hover:text-red-500 hover:fill-red-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
