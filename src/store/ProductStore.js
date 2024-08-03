@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('products', {
   state: () => ({
     products: [],
+    filteredProducts: [],
     categories: [],
     loading: false,
     error: null
@@ -15,6 +16,7 @@ export const useProductStore = defineStore('products', {
         const response = await fetch(`https://fakestoreapi.com/products`)
         if (!response.ok) throw new Error('Failed to fetch products')
         this.products = await response.json()
+        this.filteredProducts = this.products
       } catch (error) {
         this.error = error.message
       } finally {
@@ -46,6 +48,13 @@ export const useProductStore = defineStore('products', {
         return null
       } finally {
         this.loading = false
+      }
+    },
+    filterProductsByCategory(category) {
+      if (category === '') {
+        this.filteredProducts = this.products
+      } else {
+        this.filteredProducts = this.products.filter(product => product.category === category)
       }
     }
   }
