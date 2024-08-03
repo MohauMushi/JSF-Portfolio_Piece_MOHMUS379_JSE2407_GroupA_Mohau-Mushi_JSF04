@@ -9,6 +9,11 @@
     <div v-if="loading">
       <SkeletonLoader :count="8" />
     </div>
+    <div v-else-if="error">
+      <p class="text-center text-red-500 font-extrabold p-4 flex items-center justify-center">
+        {{ error }}
+      </p>
+    </div>
     <div v-else>
       <ProductGrid :products="filteredProducts" />
     </div>
