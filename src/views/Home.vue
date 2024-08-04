@@ -1,13 +1,5 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="mb-6 flex flex-wrap items-center justify-between">
-      <CategoryFilter
-        :categories="categories"
-        @filterChange="handleCategoryChange"
-      />
-      <PriceSort @sortChange="handleSortChange" />
-    </div>
-
     <div v-if="loading">
       <SkeletonLoader :count="8" />
     </div>
@@ -19,7 +11,20 @@
       </p>
     </div>
     <div v-else>
-      <ProductGrid :products="filteredAndSortedProducts" />
+      <div class="mb-6 flex flex-wrap items-center justify-between">
+        <CategoryFilter
+          :categories="categories"
+          @filterChange="handleCategoryChange"
+        />
+        <PriceSort @sortChange="handleSortChange" />
+      </div>
+      <p
+        v-if="filteredAndSortedProducts.length === 0"
+        class="text-center text-red-500 font-extrabold p-4 flex items-center justify-center"
+      >
+        No products found.
+      </p>
+      <ProductGrid v-else :products="filteredAndSortedProducts" />
     </div>
   </div>
 </template>
