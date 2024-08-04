@@ -14,9 +14,13 @@
       <div class="mb-6 flex flex-wrap items-center justify-between">
         <CategoryFilter
           :categories="categories"
+          :selectedCategory="filterSortStore.selectedCategory"
           @filterChange="handleCategoryChange"
         />
-        <PriceSort @sortChange="handleSortChange" />
+        <PriceSort
+          :selectedSort="filterSortStore.sortOrder"
+          @sortChange="handleSortChange"
+        />
       </div>
       <p
         v-if="filteredAndSortedProducts.length === 0"
@@ -32,6 +36,7 @@
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useProductStore } from "../store/ProductStore.js";
+import { useFilterSortStore } from "../store/FilterSortStore.js";
 import ProductGrid from "../components/ProductGrid.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
 import CategoryFilter from "../components/CategoryFilter.vue";
@@ -47,20 +52,19 @@ export default {
   },
   setup() {
     const productStore = useProductStore();
+    const filterSortStore = useFilterSortStore();
     const loading = ref(true);
-    const selectedCategory = ref("");
-    const sortOrder = ref("");
 
     const filteredAndSortedProducts = computed(() => {
       return productStore.products
         .filter((product) =>
-          selectedCategory.value
-            ? product.category === selectedCategory.value
+          filterSortStore.selectedCategory
+            ? product.category === filterSortStore.selectedCategory
             : true
         )
         .sort((a, b) => {
-          if (sortOrder.value === "asc") return a.price - b.price;
-          if (sortOrder.value === "desc") return b.price - a.price;
+          if (filterSortStore.sortOrder === "asc") return a.price - b.price;
+          if (filterSortStore.sortOrder === "desc") return b.price - a.price;
           return 0;
         });
     });
@@ -77,11 +81,11 @@ export default {
     });
 
     const handleCategoryChange = (category) => {
-      selectedCategory.value = category;
+      filterSortStore.setSelectedCategory(category);
     };
 
     const handleSortChange = (order) => {
-      sortOrder.value = order;
+      filterSortStore.setSortOrder(order);
     };
 
     return {
@@ -89,6 +93,7 @@ export default {
       error: computed(() => productStore.error),
       categories: computed(() => productStore.categories),
       filteredAndSortedProducts,
+      filterSortStore,
       handleCategoryChange,
       handleSortChange,
     };
