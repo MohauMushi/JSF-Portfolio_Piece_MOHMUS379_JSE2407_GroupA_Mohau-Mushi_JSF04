@@ -1,16 +1,19 @@
 <template>
   <div class="container mx-auto px-4">
     <div class="mb-6 flex flex-wrap items-center justify-between">
-      <div class="w-full md:w-auto mb-4 md:mb-0">
-        <CategoryFilter />
-      </div>
+      <CategoryFilter
+        :categories="categories"
+        @filterChange="handleCategoryChange"
+      />
     </div>
-    
+
     <div v-if="loading">
       <SkeletonLoader :count="8" />
     </div>
     <div v-else-if="error">
-      <p class="text-center text-red-500 font-extrabold p-4 flex items-center justify-center">
+      <p
+        class="text-center text-red-500 font-extrabold p-4 flex items-center justify-center"
+      >
         {{ error }}
       </p>
     </div>
@@ -36,25 +39,39 @@ export default {
   },
   setup() {
     const productStore = useProductStore();
-    const filteredProducts = computed(() => productStore.filteredProducts);
     const loading = ref(true);
+    const selectedCategory = ref("");
+
+    const filteredProducts = computed(() => {
+      return productStore.products
+        .filter((product) =>
+          selectedCategory.value
+            ? product.category === selectedCategory.value
+            : true
+        )
+    });
 
     onMounted(async () => {
       try {
         await productStore.fetchProducts();
         await productStore.fetchCategories();
       } catch (e) {
-        error("An error occurred while fetching products.");
+        productStore.error = "An error occurred while fetching products.";
       } finally {
-        setTimeout(() => {
-          loading.value = false;
-        }, 1300);
+        loading.value = false;
       }
     });
 
+    const handleCategoryChange = (category) => {
+      selectedCategory.value = category;
+    };
+
     return {
       loading,
+      error: computed(() => productStore.error),
+      categories: computed(() => productStore.categories),
       filteredProducts,
+      handleCategoryChange,
     };
   },
 };
