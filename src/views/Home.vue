@@ -5,6 +5,7 @@
         :categories="categories"
         @filterChange="handleCategoryChange"
       />
+      <PriceSort @sortChange="handleSortChange" />
     </div>
 
     <div v-if="loading">
@@ -18,7 +19,7 @@
       </p>
     </div>
     <div v-else>
-      <ProductGrid :products="filteredProducts" />
+      <ProductGrid :products="filteredAndSortedProducts" />
     </div>
   </div>
 </template>
@@ -29,6 +30,7 @@ import { useProductStore } from "../store/ProductStore.js";
 import ProductGrid from "../components/ProductGrid.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
 import CategoryFilter from "../components/CategoryFilter.vue";
+import PriceSort from "../components/PriceSort.vue";
 
 export default {
   name: "Home",
@@ -36,19 +38,26 @@ export default {
     ProductGrid,
     SkeletonLoader,
     CategoryFilter,
+    PriceSort,
   },
   setup() {
     const productStore = useProductStore();
     const loading = ref(true);
     const selectedCategory = ref("");
+    const sortOrder = ref("");
 
-    const filteredProducts = computed(() => {
+    const filteredAndSortedProducts = computed(() => {
       return productStore.products
         .filter((product) =>
           selectedCategory.value
             ? product.category === selectedCategory.value
             : true
         )
+        .sort((a, b) => {
+          if (sortOrder.value === "asc") return a.price - b.price;
+          if (sortOrder.value === "desc") return b.price - a.price;
+          return 0;
+        });
     });
 
     onMounted(async () => {
@@ -66,12 +75,17 @@ export default {
       selectedCategory.value = category;
     };
 
+    const handleSortChange = (order) => {
+      sortOrder.value = order;
+    };
+
     return {
       loading,
       error: computed(() => productStore.error),
       categories: computed(() => productStore.categories),
-      filteredProducts,
+      filteredAndSortedProducts,
       handleCategoryChange,
+      handleSortChange,
     };
   },
 };
