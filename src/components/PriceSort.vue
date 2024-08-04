@@ -5,7 +5,7 @@
 	  </label>
 	  <select
 		id="sort"
-		v-model="selectedSort"
+		:value="selectedSort"
 		@change="handleSortChange"
 		class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
 	  >
@@ -17,22 +17,21 @@
   </template>
   
   <script>
-  import { ref } from "vue";
-  
   export default {
 	name: "PriceSort",
+	props: {
+	  selectedSort: {
+		type: String,
+		required: true,
+	  },
+	},
 	emits: ["sortChange"],
 	setup(props, { emit }) {
-	  const selectedSort = ref("");
-  
 	  const handleSortChange = (event) => {
-		const sort = event.target.value;
-		selectedSort.value = sort;
-		emit("sortChange", sort);
+		emit("sortChange", event.target.value);
 	  };
   
 	  return {
-		selectedSort,
 		handleSortChange,
 	  };
 	},

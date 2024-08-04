@@ -5,7 +5,7 @@
     </label>
     <select
       id="category"
-      v-model="selectedCategory"
+      :value="selectedCategory"
       @change="handleCategoryChange"
       class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
     >
@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import { ref } from "vue";
-
 export default {
   name: "CategoryFilter",
   props: {
@@ -27,19 +25,18 @@ export default {
       type: Array,
       required: true,
     },
+    selectedCategory: {
+      type: String,
+      required: true,
+    },
   },
   emits: ["filterChange"],
   setup(props, { emit }) {
-    const selectedCategory = ref("");
-
     const handleCategoryChange = (event) => {
-      const category = event.target.value;
-      selectedCategory.value = category;
-      emit("filterChange", category);
+      emit("filterChange", event.target.value);
     };
 
     return {
-      selectedCategory,
       handleCategoryChange,
     };
   },
