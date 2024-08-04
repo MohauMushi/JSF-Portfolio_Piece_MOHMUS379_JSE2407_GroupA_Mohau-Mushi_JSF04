@@ -18,28 +18,27 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
-import { useProductStore } from "../store/ProductStore.js";
+import { ref } from "vue";
 
 export default {
   name: "CategoryFilter",
+  props: {
+    categories: {
+      type: Array,
+      required: true,
+    },
+  },
   emits: ["filterChange"],
   setup(props, { emit }) {
-    const productStore = useProductStore();
     const selectedCategory = ref("");
-
-    watch(selectedCategory, (newCategory) => {
-      productStore.filterProductsByCategory(newCategory);
-    });
 
     const handleCategoryChange = (event) => {
       const category = event.target.value;
       selectedCategory.value = category;
-      emit("filterChange", { category });
+      emit("filterChange", category);
     };
 
     return {
-      categories: productStore.categories,
       selectedCategory,
       handleCategoryChange,
     };
