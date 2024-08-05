@@ -64,7 +64,7 @@
             <!-- Cart icon (visible on larger screens) -->
             <li>
               <router-link
-                :to="{}"
+                :to="{name : 'Cart'}"
                 class="hidden lg:block md:block relative text-white px-2 py-1 hover:bg-teal-600 rounded-md"
               >
                 <div class="absolute -top-2 -right-2">
@@ -95,7 +95,7 @@
             <!-- Cart text link (visible on smaller screens) -->
             <li>
               <router-link
-                :to="{}"
+                :to="{name : 'Cart'}"
                 class="lg:hidden md:hidden block py-2 px-3 text-white rounded-md hover:bg-teal-600 md:hover:bg-transparent md:border-0 md:hover:text-teal-300 md:p-0"
               >
                 Cart

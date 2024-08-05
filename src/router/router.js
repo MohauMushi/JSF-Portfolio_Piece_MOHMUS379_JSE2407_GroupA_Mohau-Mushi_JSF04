@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import Login from '../views/Login.vue'
 import Wishlist from '../views/Wishlist.vue'
+import Cart from '../views/Cart.vue'
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/wishlist',
     name: 'Wishlist',
     component: Wishlist,
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
   },
   
 ]
