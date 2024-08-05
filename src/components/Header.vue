@@ -5,7 +5,10 @@
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <!-- Logo and brand name -->
-        <router-link :to="{ name: 'Home' }" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <router-link
+          :to="{ name: 'Home' }"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
             src="/public/accusoft-svgrepo-com.svg"
             class="h-8"
@@ -55,7 +58,7 @@
             <!-- Wishlist link -->
             <li>
               <router-link
-                :to="{name : 'Wishlist'}"
+                :to="{ name: 'Wishlist' }"
                 class="text-white hover:bg-teal-600 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
               >
                 WishList
@@ -64,7 +67,7 @@
             <!-- Cart icon (visible on larger screens) -->
             <li>
               <router-link
-                :to="{name : 'Cart'}"
+                :to="{ name: 'Cart' }"
                 class="hidden lg:block md:block relative text-white px-2 py-1 hover:bg-teal-600 rounded-md"
               >
                 <div class="absolute -top-2 -right-2">
@@ -95,7 +98,7 @@
             <!-- Cart text link (visible on smaller screens) -->
             <li>
               <router-link
-                :to="{name : 'Cart'}"
+                :to="{ name: 'Cart' }"
                 class="lg:hidden md:hidden block py-2 px-3 text-white rounded-md hover:bg-teal-600 md:hover:bg-transparent md:border-0 md:hover:text-teal-300 md:p-0"
               >
                 Cart
@@ -150,6 +153,10 @@ export default {
     };
   },
   methods: {
+    /**
+     * Toggles the visibility of the mobile menu.
+     * @method
+     */
     toggleMenu() {
       this.isOpen = !this.isOpen;
     },
