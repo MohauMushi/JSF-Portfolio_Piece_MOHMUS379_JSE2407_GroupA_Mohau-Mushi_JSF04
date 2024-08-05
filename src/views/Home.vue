@@ -17,6 +17,7 @@
           :selectedCategory="filterSortStore.selectedCategory"
           @filterChange="handleCategoryChange"
         />
+        <SearchBar @search="handleSearch" />
         <PriceSort
           :selectedSort="filterSortStore.sortOrder"
           @sortChange="handleSortChange"
@@ -41,6 +42,7 @@ import ProductGrid from "../components/ProductGrid.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
 import CategoryFilter from "../components/CategoryFilter.vue";
 import PriceSort from "../components/PriceSort.vue";
+import SearchBar from "../components/SearchBar.vue";
 
 export default {
   name: "Home",
@@ -49,19 +51,25 @@ export default {
     SkeletonLoader,
     CategoryFilter,
     PriceSort,
+    SearchBar,
   },
   setup() {
     const productStore = useProductStore();
     const filterSortStore = useFilterSortStore();
     const loading = ref(true);
+    const searchTerm = ref("");
 
     const filteredAndSortedProducts = computed(() => {
       return productStore.products
-        .filter((product) =>
-          filterSortStore.selectedCategory
+        .filter((product) => {
+          const categoryMatch = filterSortStore.selectedCategory
             ? product.category === filterSortStore.selectedCategory
-            : true
-        )
+            : true;
+          const searchMatch = product.title
+            .toLowerCase()
+            .includes(searchTerm.value.toLowerCase());
+          return categoryMatch && searchMatch;
+        })
         .sort((a, b) => {
           if (filterSortStore.sortOrder === "asc") return a.price - b.price;
           if (filterSortStore.sortOrder === "desc") return b.price - a.price;
@@ -88,6 +96,10 @@ export default {
       filterSortStore.setSortOrder(order);
     };
 
+    const handleSearch = (term) => {
+      searchTerm.value = term;
+    };
+
     return {
       loading,
       error: computed(() => productStore.error),
@@ -96,6 +108,7 @@ export default {
       filterSortStore,
       handleCategoryChange,
       handleSortChange,
+      handleSearch,
     };
   },
 };
