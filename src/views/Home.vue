@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto px-4 py-8">
     <!-- Loading state -->
     <div v-if="loading">
       <SkeletonLoader :count="8" />

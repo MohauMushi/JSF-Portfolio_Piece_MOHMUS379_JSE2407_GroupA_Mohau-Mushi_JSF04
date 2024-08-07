@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto">
+  <div class="max-w-md mx-auto container px-4 py-8">
     <h1 class="text-2xl font-bold mb-4">Login</h1>
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>

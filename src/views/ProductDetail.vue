@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col container mx-auto px-4 py-8">
     <!-- Back to Products link -->
     <div>
       <router-link
