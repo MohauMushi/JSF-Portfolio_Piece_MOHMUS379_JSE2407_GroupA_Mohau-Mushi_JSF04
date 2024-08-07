@@ -44,22 +44,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { defineProps } from "vue";
+
 /**
- * @module ProductDetailSkeleton
- * @description A component that renders a skeleton loader for a product detail page.
+ * @property {boolean} show - Determines whether the skeleton loader should be displayed.
+ * @default false
  */
-export default {
-  name: "ProductDetailSkeleton",
-  props: {
-    /**
-     * @property {boolean} show - Determines whether the skeleton loader should be displayed.
-     * @default false
-     */
-    show: {
-      type: Boolean,
-      default: false,
-    },
+defineProps({
+  show: {
+    type: Boolean,
+    default: false,
   },
-};
+});
 </script>

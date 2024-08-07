@@ -39,36 +39,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 
+const emit = defineEmits(["search"]);
+
 /**
- * @module SearchBar
- * @vue-component
- * @description A component that renders a search bar and emits search events as the user types.
+ * @type {import('vue').Ref<string>}
+ * @description Reactive reference to the current search term.
  */
-export default {
-  name: "SearchBar",
-  emits: ["search"],
-  setup(props, { emit }) {
-    /**
-     * @type {import('vue').Ref<string>}
-     * @description Reactive reference to the current search term.
-     */
-    const searchTerm = ref("");
+const searchTerm = ref("");
 
-    /**
-     * @function handleInput
-     * @description Emits a 'search' event with the current search term whenever the input changes.
-     */
-    function handleInput() {
-      emit("search", searchTerm.value);
-    }
-
-    return {
-      searchTerm,
-      handleInput,
-    };
-  },
-};
+/**
+ * @function handleInput
+ * @description Emits a 'search' event with the current search term whenever the input changes.
+ */
+function handleInput() {
+  emit("search", searchTerm.value);
+}
 </script>

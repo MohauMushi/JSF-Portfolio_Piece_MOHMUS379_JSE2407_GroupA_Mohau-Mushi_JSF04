@@ -10,7 +10,7 @@
           class="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="/public/accusoft-svgrepo-com.svg"
+            src="/accusoft-svgrepo-com.svg"
             class="h-8"
             alt="FluxStore Logo"
           />
@@ -135,31 +135,18 @@
   </header>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-export default {
-  name: "Header",
-  setup() {
-    const router = useRouter();
+const router = useRouter();
+const isOpen = ref(false);
 
-    return {
-      router,
-    };
-  },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  methods: {
-    /**
-     * Toggles the visibility of the mobile menu.
-     * @method
-     */
-    toggleMenu() {
-      this.isOpen = !this.isOpen;
-    },
-  },
+/**
+ * Toggles the visibility of the mobile menu.
+ * @function
+ */
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
 };
 </script>

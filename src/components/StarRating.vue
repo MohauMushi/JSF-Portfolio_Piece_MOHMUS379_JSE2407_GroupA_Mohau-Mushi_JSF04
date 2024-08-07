@@ -23,23 +23,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /**
- * @module StarRating
- * @vue-component
- * @description A component that displays a star rating based on a given numeric value.
+ * @typedef {Object} Props
+ * @property {number} rating - The rating to be displayed (between 0 and 5).
  */
-export default {
-  name: "StarRating",
-  props: {
-    /**
-     * @property {number} rating - The rating to be displayed (between 0 and 5).
-     * @required
-     */
-    rating: {
-      type: Number,
-      required: true,
-    },
+
+/**
+ * @type {Props}
+ */
+const props = defineProps({
+  rating: {
+    type: Number,
+    required: true,
   },
-};
+});
+
+const { rating } = props;
 </script>

@@ -15,7 +15,7 @@
       <div class="w-full max-w-4xl">
         <!-- Skeleton loader -->
         <ProductDetailSkeleton :show="loading" />
-        
+
         <!-- Product details -->
         <div
           v-if="!loading && product"
@@ -93,77 +93,58 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useProductStore } from "../store/ProductStore";
 import ProductDetailSkeleton from "../components/ProductDetailSkeleton.vue";
 
 /**
- * @component ProductDetail
- * @description Displays detailed information about a single product.
+ * @constant {Object} route - Vue Router instance for accessing route parameters
  */
-export default {
-  name: "ProductDetail",
-  components: {
-    ProductDetailSkeleton,
-  },
+const route = useRoute();
 
-  setup() {
-    /**
-     * @constant {Object} route - Vue Router instance for accessing route parameters
-     */
-    const route = useRoute();
+/**
+ * @constant {Object} productStore - Product store instance for fetching product data
+ */
+const productStore = useProductStore();
 
-    /**
-     * @constant {Object} productStore - Product store instance for fetching product data
-     */
-    const productStore = useProductStore();
+/**
+ * @type {import('vue').Ref<Object|null>}
+ * @description Reactive reference to store the current product's data
+ */
+const product = ref(null);
 
-    /**
-     * @type {import('vue').Ref<Object|null>}
-     * @description Reactive reference to store the current product's data
-     */
-    const product = ref(null);
+/**
+ * @type {import('vue').Ref<boolean>}
+ * @description Reactive reference to track loading state
+ */
+const loading = ref(true);
 
-    /**
-     * @type {import('vue').Ref<boolean>}
-     * @description Reactive reference to track loading state
-     */
-    const loading = ref(true);
+/**
+ * @function
+ * @async
+ * @description Fetches product data on component mount
+ */
+onMounted(async () => {
+  const id = route.params.id;
+  try {
+    product.value = await productStore.fetchProductById(id);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+  } finally {
+    setTimeout(() => {
+      loading.value = false;
+    }, 1300);
+  }
+});
 
-    /**
-     * @function
-     * @async
-     * @description Fetches product data on component mount
-     */
-    onMounted(async () => {
-      const id = route.params.id;
-      try {
-        product.value = await productStore.fetchProductById(id);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setTimeout(() => {
-          loading.value = false;
-        }, 1300);
-      }
-    });
-
-    /**
-     * @function
-     * @description Handles the "Add to Cart" button click
-     * @todo Implement the actual cart functionality
-     */
-    const addToCart = () => {
-      // console.log("Added to cart:", product.value.title);
-    };
-
-    return {
-      product,
-      loading,
-      addToCart,
-    };
-  },
+/**
+ * @function
+ * @description Handles the "Add to Cart" button click
+ * @todo Implement the actual cart functionality
+ */
+const addToCart = () => {
+  // console.log("Added to cart:", product.value.title);
 };
 </script>

@@ -16,51 +16,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { defineProps, defineEmits } from "vue";
+
 /**
- * @component PriceSort
- * @description A component that allows users to sort products by price.
+ * @property {string} selectedSort - The currently selected sort order.
  */
-export default {
-  name: "PriceSort",
-
-  /**
-   * @property {Object} props - The properties that the component accepts.
-   * @property {string} props.selectedSort - The currently selected sort order.
-   */
-  props: {
-    selectedSort: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  selectedSort: {
+    type: String,
+    required: true,
   },
+});
 
-  /**
-   * @property {string[]} emits - The events that this component emits.
-   */
-  emits: ["sortChange"],
+const emit = defineEmits(["sortChange"]);
 
-  /**
-   * @function setup
-   * @description The setup function for the component's composition API.
-   * @param {Object} props - The component's props.
-   * @param {Object} context - The setup context object.
-   * @param {Function} context.emit - The function to emit events.
-   * @returns {Object} An object containing the component's methods.
-   */
-  setup(props, { emit }) {
-    /**
-     * @function handleSortChange
-     * @description Handles the change event of the sort select element.
-     * @param {Event} event - The change event object.
-     */
-    const handleSortChange = (event) => {
-      emit("sortChange", event.target.value);
-    };
-
-    return {
-      handleSortChange,
-    };
-  },
+/**
+ * @function handleSortChange
+ * @description Handles the change event of the sort select element.
+ * @param {Event} event - The change event object.
+ */
+const handleSortChange = (event) => {
+  emit("sortChange", event.target.value);
 };
 </script>

@@ -62,38 +62,24 @@
   </router-link>
 </template>
 
-<script>
+<script setup>
 import StarRating from "./StarRating.vue";
 
 /**
- * @module ProductCard
- * @description A component that renders a card displaying product information including image, title, rating, price, category, and action buttons.
+ * @property {Object} product - The product object containing all necessary information to display.
+ * @property {number} product.id - Unique identifier for the product.
+ * @property {string} product.image - URL of the product image.
+ * @property {string} product.title - Title of the product.
+ * @property {Object} product.rating - Rating information for the product.
+ * @property {number} product.rating.rate - The average rating of the product.
+ * @property {number} product.price - The price of the product.
+ * @property {string} product.category - The category of the product.
+ * @required
  */
-export default {
-  name: "ProductCard",
-  components: {
-    /**
-     * @component StarRating
-     * @description Component used to display the product's star rating.
-     */
-    StarRating,
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true,
   },
-  props: {
-    /**
-     * @property {Object} product - The product object containing all necessary information to display.
-     * @property {number} product.id - Unique identifier for the product.
-     * @property {string} product.image - URL of the product image.
-     * @property {string} product.title - Title of the product.
-     * @property {Object} product.rating - Rating information for the product.
-     * @property {number} product.rating.rate - The average rating of the product.
-     * @property {number} product.price - The price of the product.
-     * @property {string} product.category - The category of the product.
-     * @required
-     */
-    product: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+});
 </script>

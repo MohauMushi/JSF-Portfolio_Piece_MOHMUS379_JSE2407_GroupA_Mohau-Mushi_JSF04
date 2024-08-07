@@ -22,43 +22,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "CategoryFilter",
-  props: {
-    /**
-     * Array of categories to display in the dropdown.
-     * @type {Array}
-     * @required
-     */
-    categories: {
-      type: Array,
-      required: true,
-    },
-    /**
-     * The currently selected category.
-     * @type {String}
-     * @required
-     */
-    selectedCategory: {
-      type: String,
-      required: true,
-    },
+<script setup>
+const props = defineProps({
+  /**
+   * Array of categories to display in the dropdown.
+   */
+  categories: {
+    type: Array,
+    required: true,
   },
-  emits: ["filterChange"],
-  setup(props, { emit }) {
-    /**
-     * Handles the change event for the category dropdown.
-     * Emits the 'filterChange' event with the selected category.
-     * @param {Event} event - The change event object.
-     */
-    const handleCategoryChange = (event) => {
-      emit("filterChange", event.target.value);
-    };
+  /**
+   * The currently selected category.
+   */
+  selectedCategory: {
+    type: String,
+    required: true,
+  },
+});
 
-    return {
-      handleCategoryChange,
-    };
-  },
+// Emits declaration
+const emit = defineEmits(["filterChange"]);
+
+/**
+ * Handles the change event for the category dropdown.
+ * Emits the 'filterChange' event with the selected category.
+ * @param {Event} event - The change event object.
+ */
+const handleCategoryChange = (event) => {
+  emit("filterChange", event.target.value);
 };
 </script>

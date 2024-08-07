@@ -12,32 +12,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import ProductCard from "./ProductCard.vue";
 
 /**
- * @module ProductGrid
- * @vue-component
- * @description A component that renders a grid of ProductCard components based on the provided products array.
+ * @property {Array} products - An array of product objects to be displayed in the grid.
+ * @required
  */
-export default {
-  name: "ProductGrid",
-  components: {
-    /**
-     * @component ProductCard
-     * @description Component used to display individual product information.
-     */
-    ProductCard,
+const props = defineProps({
+  products: {
+    type: Array,
+    required: true,
   },
-  props: {
-    /**
-     * @property {Array} products - An array of product objects to be displayed in the grid.
-     * @required
-     */
-    products: {
-      type: Array,
-      required: true,
-    },
-  },
-};
+});
 </script>

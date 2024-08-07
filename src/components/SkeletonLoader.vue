@@ -49,22 +49,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /**
- * @module SkeletonLoader
- * @description A component that renders a grid of skeleton loaders for product cards.
+ * @property {number} count - The number of skeleton product cards to render.
+ * @default 8
  */
-export default {
-  name: "SkeletonLoader",
-  props: {
-    /**
-     * @property {number} count - The number of skeleton product cards to render.
-     * @default 8
-     */
-    count: {
-      type: Number,
-      default: 8,
-    },
+const props = defineProps({
+  count: {
+    type: Number,
+    default: 8,
   },
-};
+});
 </script>
