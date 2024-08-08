@@ -13,7 +13,7 @@
           <p class="text-sm text-center text-gray-600 mb-6">
             Sign in to continue to FluxStore
           </p>
-          <form  class="space-y-5">
+          <form @submit.prevent="handleSubmit" class="space-y-5">
             <div>
               <label
                 for="username"
@@ -54,7 +54,7 @@
               type="submit"
               class="w-full bg-gradient-to-r from-green-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-green-500 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-            Sign In
+              Sign In
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 inline-block ml-1"
@@ -86,8 +86,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
+const username = ref("");
+const password = ref("");
 const currentYear = computed(() => new Date().getFullYear());
 
+const handleSubmit = async () => {
+  if (!username.value || !password.value) {
+    error.value = "Username and password are required";
+    return;
+  }
+};
 </script>
