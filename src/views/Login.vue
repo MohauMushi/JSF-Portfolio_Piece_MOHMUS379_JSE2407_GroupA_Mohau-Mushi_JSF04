@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between bg-gradient-to-br from-teal-200 via-yellow-100 to-teal-200 min-h-screen"
+    class="flex flex-col items-center justify-between bg-gradient-to-br from-teal-200 via-yellow-100 to-teal-200 min-h-[90vh]"
   >
     <div class="flex-grow flex items-center justify-center w-full p-4">
       <div class="w-full max-w-md">
@@ -107,6 +107,30 @@ const handleSubmit = async () => {
   if (!username.value || !password.value) {
     error.value = "Username and password are required";
     return;
+  }
+
+  isLoading.value = true;
+  error.value = "";
+
+  try {
+    const response = await fetch("https://fakestoreapi.com/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+  } catch (err) {
+    error.value = "Login failed. Please check your credentials and try again.";
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
