@@ -105,7 +105,7 @@
               </router-link>
             </li>
             <!-- Login/Logout dropdown -->
-            <li class="relative">
+            <li class="relative" ref="accountDropdown">
               <button
                 @click="toggleUserMenu"
                 class="flex items-center py-2 px-1 text-white hover:bg-teal-600 rounded-md md:border-0 md:p-1.5"
@@ -132,7 +132,7 @@
               </button>
               <div
                 v-if="isUserMenuOpen"
-                class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+                class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-teal-500 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
               >
                 <div class="py-1" v-if="!isLoggedIn">
                   <router-link
@@ -160,7 +160,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
 
@@ -169,6 +169,7 @@ const authStore = useAuthStore();
 
 const isOpen = ref(false);
 const isUserMenuOpen = ref(false);
+const accountDropdown = ref(null);
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const username = computed(() => authStore.user?.username || "");
@@ -186,4 +187,18 @@ const handleLogout = async () => {
   isUserMenuOpen.value = false;
   router.push({ name: "Home" });
 };
+
+const handleClickOutside = (event) => {
+  if (accountDropdown.value && !accountDropdown.value.contains(event.target)) {
+    isUserMenuOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
