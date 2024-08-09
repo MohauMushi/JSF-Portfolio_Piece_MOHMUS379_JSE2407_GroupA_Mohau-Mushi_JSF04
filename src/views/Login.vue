@@ -118,6 +118,11 @@
           </form>
         </div>
       </div>
+      <AlertComponent
+        v-if="authStore.alert.show"
+        :message="authStore.alert.message"
+        :type="authStore.alert.type"
+      />
     </div>
     <footer class="w-full text-center text-sm text-gray-600 mb-16 p-4">
       <a href="#" class="hover:underline">Contact Us</a> •
@@ -130,6 +135,7 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
+import AlertComponent from "../components/Alert.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -159,4 +165,5 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
+
 </script>

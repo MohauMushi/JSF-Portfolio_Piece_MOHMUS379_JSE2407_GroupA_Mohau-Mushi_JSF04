@@ -132,12 +132,12 @@
               </button>
               <div
                 v-if="isUserMenuOpen"
-                class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-teal-500 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+                class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-teal-500 ring-1 ring-black ring-opacity-5 divide-y divide-teal-400 focus:outline-none"
               >
                 <div class="py-1" v-if="!isLoggedIn">
                   <router-link
                     :to="{ name: 'Login' }"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    class="block px-4 py-2 text-sm text-white hover:bg-teal-400"
                   >
                     Login
                   </router-link>
@@ -145,7 +145,7 @@
                 <div class="py-1" v-if="isLoggedIn">
                   <button
                     @click="handleLogout"
-                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-teal-400"
                   >
                     Logout
                   </button>
@@ -156,6 +156,11 @@
         </div>
       </div>
     </nav>
+    <AlertComponent
+      v-if="authStore.alert.show"
+      :message="authStore.alert.message"
+      :type="authStore.alert.type"
+    />
   </header>
 </template>
 
@@ -163,6 +168,7 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
+import AlertComponent from "./Alert.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
