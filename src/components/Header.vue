@@ -104,15 +104,15 @@
                 Cart
               </router-link>
             </li>
-            <!-- Login icon -->
-            <li>
-              <router-link
-                :to="{ name: 'Login' }"
-                class="block py-2 px-1 text-white hover:bg-teal-600 rounded-md md:border-0 md:p-1.5"
+            <!-- Login/Logout dropdown -->
+            <li class="relative">
+              <button
+                @click="toggleUserMenu"
+                class="flex items-center py-2 px-1 text-white hover:bg-teal-600 rounded-md md:border-0 md:p-1.5"
               >
-                <span class="sr-only">Login</span>
+                <span class="sr-only">User menu</span>
                 <svg
-                  class="h-6 w-6"
+                  class="h-6 w-6 mr-1"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -126,7 +126,30 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-              </router-link>
+                <span class="text-sm">{{
+                  isLoggedIn ? username : "Account"
+                }}</span>
+              </button>
+              <div
+                v-if="isUserMenuOpen"
+                class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+              >
+                <div class="py-1" v-if="!isLoggedIn">
+                  <router-link
+                    :to="{ name: 'Login' }"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  >
+                    Login
+                  </router-link>
+                </div>
+                <div class="py-1" v-if="isLoggedIn">
+                  <button
+                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -136,17 +159,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed } from "vue";
+import { useAuthStore } from "../store/auth.js";
 
-const router = useRouter();
+const authStore = useAuthStore();
+
 const isOpen = ref(false);
+const isUserMenuOpen = ref(false);
 
-/**
- * Toggles the visibility of the mobile menu.
- * @function
- */
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+const username = computed(() => authStore.user?.username || "");
+
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
+};
+
+const toggleUserMenu = () => {
+  isUserMenuOpen.value = !isUserMenuOpen.value;
 };
 </script>
