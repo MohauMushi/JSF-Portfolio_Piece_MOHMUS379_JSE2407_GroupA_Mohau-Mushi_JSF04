@@ -34,5 +34,19 @@ export const useAuthStore = defineStore('auth', {
         throw error;
       }
     },
+    logout() {
+      this.token = null;
+      this.user = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    },
+    checkAuth() {
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (token && user) {
+        this.token = token;
+        this.user = user;
+      }
+    },
   },
 });
