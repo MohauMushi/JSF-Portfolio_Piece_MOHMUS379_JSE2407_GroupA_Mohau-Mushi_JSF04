@@ -4,6 +4,11 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token') || null,
     user: JSON.parse(localStorage.getItem('user')) || null,
+    alert: {
+      show: false,
+      message: '',
+      type: 'success'
+    }
   }),
   getters: {
     isLoggedIn: (state) => !!state.token,
@@ -29,8 +34,11 @@ export const useAuthStore = defineStore('auth', {
         
         localStorage.setItem('token', this.token);
         localStorage.setItem('user', JSON.stringify(this.user));
+        
+        this.showAlert('Successfully logged in', 'success');
       } catch (error) {
         console.error('Login error:', error);
+        this.showAlert('Login failed', 'error');
         throw error;
       }
     },
@@ -39,6 +47,7 @@ export const useAuthStore = defineStore('auth', {
       this.user = null;
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      this.showAlert('Successfully logged out', 'success');
     },
     checkAuth() {
       const token = localStorage.getItem('token');
@@ -48,5 +57,11 @@ export const useAuthStore = defineStore('auth', {
         this.user = user;
       }
     },
+    showAlert(message, type = 'success') {
+      this.alert = { show: true, message, type };
+      setTimeout(() => {
+        this.alert = { show: false, message: '', type: 'success' };
+      }, 3000);
+    }
   },
 });
