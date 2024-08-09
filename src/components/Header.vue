@@ -144,6 +144,7 @@
                 </div>
                 <div class="py-1" v-if="isLoggedIn">
                   <button
+                    @click="handleLogout"
                     class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                   >
                     Logout
@@ -160,8 +161,10 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const isOpen = ref(false);
@@ -176,5 +179,11 @@ const toggleMenu = () => {
 
 const toggleUserMenu = () => {
   isUserMenuOpen.value = !isUserMenuOpen.value;
+};
+
+const handleLogout = async () => {
+  await authStore.logout();
+  isUserMenuOpen.value = false;
+  router.push({ name: "Home" });
 };
 </script>
