@@ -133,11 +133,12 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
 import AlertComponent from "../components/Alert.vue";
 
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 
 const username = ref("");
@@ -158,7 +159,8 @@ const handleSubmit = async () => {
 
   try {
     await authStore.login(username.value, password.value);
-    router.push(router.currentRoute.value.query.redirect || "/");
+    const redirectPath = route.query.redirect || "/";
+    router.push(redirectPath);
   } catch (err) {
     error.value = "Login failed. Please check your credentials and try again.";
   } finally {
@@ -166,4 +168,7 @@ const handleSubmit = async () => {
   }
 };
 
+const toggleShowPassword = () => {
+  showPassword.value = !showPassword.value;
+};
 </script>
