@@ -58,7 +58,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, next) => {
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
