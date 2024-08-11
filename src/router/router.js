@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "../store/auth.js";
 import Home from "../views/Home.vue";
 import ProductDetail from "../views/ProductDetail.vue";
 import Login from "../views/Login.vue";
@@ -38,11 +39,13 @@ const routes = [
     path: "/wishlist",
     name: "Wishlist",
     component: Wishlist,
+    meta: { requiresAuth: true },
   },
   {
     path: "/cart",
     name: "Cart",
     component: Cart,
+    meta: { requiresAuth: true },
   },
 ];
 
@@ -53,6 +56,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, next) => {
+  const authStore = useAuthStore();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  if (requiresAuth && !authStore.isLoggedIn) {
+    // Instead of redirecting, show the modal
+    const destination = to.name.toLowerCase();
+    authStore.showAuthModal(destination);
+    next(false); // Prevent the navigation
+  } else {
+    next();
+  }
 });
 
 export default router;
