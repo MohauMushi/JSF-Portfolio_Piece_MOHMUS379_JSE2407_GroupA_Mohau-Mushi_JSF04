@@ -8,6 +8,10 @@ export const useAuthStore = defineStore('auth', {
       show: false,
       message: '',
       type: 'success'
+    },
+    authModal: {
+      isOpen: false,
+      destination: ''
     }
   }),
   getters: {
@@ -62,6 +66,12 @@ export const useAuthStore = defineStore('auth', {
       setTimeout(() => {
         this.alert = { show: false, message: '', type: 'success' };
       }, 3000);
+    },
+    showAuthModal(destination) {
+      this.authModal = { isOpen: true, destination };
+    },
+    hideAuthModal() {
+      this.authModal = { isOpen: false, destination: '' };
     }
   },
 });
