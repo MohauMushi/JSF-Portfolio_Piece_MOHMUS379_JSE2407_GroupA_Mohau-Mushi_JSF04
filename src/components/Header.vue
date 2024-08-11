@@ -137,17 +137,60 @@
                 <div class="py-1" v-if="!isLoggedIn">
                   <router-link
                     :to="{ name: 'Login' }"
-                    class="block px-4 py-2 text-sm text-white hover:bg-teal-400"
+                    class="flex justify-between px-4 py-2 text-sm text-white hover:bg-teal-400"
                   >
                     Login
+                    <svg
+                      class="h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)"
+                    >
+                      <path
+                        d="M2.00098 11.999L16.001 11.999M16.001 11.999L12.501 8.99902M16.001 11.999L12.501 14.999"
+                        stroke="#000000"
+                        stroke-width="1.9200000000000004"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                      <path
+                        opacity="0.5"
+                        d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.2429 22 18.8286 22 16.0002 22H15.0002C12.1718 22 10.7576 22 9.87889 21.1213C9.11051 20.3529 9.01406 19.175 9.00195 17"
+                        stroke="#000000"
+                        stroke-width="1.9200000000000004"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
                   </router-link>
                 </div>
                 <div class="py-1" v-if="isLoggedIn">
                   <button
                     @click="handleLogout"
-                    class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-teal-400"
+                    class="flex justify-between w-full text-left px-4 py-2 text-sm text-white hover:bg-teal-400"
                   >
                     Logout
+                    <svg
+                      class="h-6 w-6"
+                      viewBox="0 0 24.00 24.00"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        opacity="0.5"
+                        d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.2429 22 18.8286 22 16.0002 22H15.0002C12.1718 22 10.7576 22 9.87889 21.1213C9.11051 20.3529 9.01406 19.175 9.00195 17"
+                        stroke="#000000"
+                        stroke-width="1.9200000000000004"
+                        stroke-linecap="round"
+                      ></path>
+                      <path
+                        d="M15 12L2 12M2 12L5.5 9M2 12L5.5 15"
+                        stroke="#000000"
+                        stroke-width="1.9200000000000004"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
                   </button>
                 </div>
               </div>
