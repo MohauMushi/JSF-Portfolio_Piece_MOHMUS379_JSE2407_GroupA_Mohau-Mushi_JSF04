@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
+import { jwtDecode } from "jwt-decode";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem('token') || null,
+    token: localStorage.getItem('jwt') || null,
     user: JSON.parse(localStorage.getItem('user')) || null,
     alert: {
       show: false,
@@ -34,14 +35,16 @@ export const useAuthStore = defineStore('auth', {
 
         const data = await response.json();
         this.token = data.token;
-        this.user = { username };
         
-        localStorage.setItem('token', this.token);
+        const decodedToken = jwtDecode(this.token);
+        this.user = { ...decodedToken, username };
+        
+        localStorage.setItem('jwt', this.token);
         localStorage.setItem('user', JSON.stringify(this.user));
         
         this.showAlert('Successfully logged in', 'success');
       } catch (error) {
-        console.error('Login error:', error);
+        // console.error('Login error:', error);
         this.showAlert('Login failed', 'error');
         throw error;
       }
@@ -49,16 +52,25 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.token = null;
       this.user = null;
-      localStorage.removeItem('token');
+      localStorage.removeItem('jwt');
       localStorage.removeItem('user');
       this.showAlert('Successfully logged out', 'success');
     },
     checkAuth() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('jwt');
       const user = JSON.parse(localStorage.getItem('user'));
       if (token && user) {
-        this.token = token;
-        this.user = user;
+        try {
+          const decodedToken = jwtDecode(token);
+          if (decodedToken.exp) {
+            this.token = token;
+            this.user = user;
+          } else {
+            this.logout(); 
+          }
+        } catch (error) {
+          this.logout();
+        }
       }
     },
     showAlert(message, type = 'success') {
