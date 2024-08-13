@@ -33,6 +33,21 @@ export const useCartStore = defineStore("cart", {
       }
       this.saveToLocalStorage();
     },
+    removeFromCart(productId) {
+      this.items = this.items.filter((item) => item.id !== productId);
+      this.saveToLocalStorage();
+    },
+    updateQuantity(productId, quantity) {
+      const item = this.items.find((item) => item.id === productId);
+      if (item) {
+        item.quantity = quantity;
+        this.saveToLocalStorage();
+      }
+    },
+    clearCart() {
+      this.items = [];
+      this.saveToLocalStorage();
+    },
     saveToLocalStorage() {
       const authStore = useAuthStore();
       const userId = this.getUserIdFromToken(authStore.token);
