@@ -97,6 +97,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useProductStore } from "../store/ProductStore";
+import { useCartStore } from "../store/CartStore.js";
 import ProductDetailSkeleton from "../components/ProductDetailSkeleton.vue";
 
 /**
@@ -108,6 +109,8 @@ const route = useRoute();
  * @constant {Object} productStore - Product store instance for fetching product data
  */
 const productStore = useProductStore();
+
+const cartStore = useCartStore();
 
 /**
  * @type {import('vue').Ref<Object|null>}
@@ -146,5 +149,8 @@ onMounted(async () => {
  */
 const addToCart = () => {
   // console.log("Added to cart:", product.value.title);
+  if (product.value) {
+    cartStore.addToCart(product.value);
+  }
 };
 </script>
