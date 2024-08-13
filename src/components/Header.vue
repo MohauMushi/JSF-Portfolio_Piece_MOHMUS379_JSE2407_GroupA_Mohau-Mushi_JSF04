@@ -259,6 +259,8 @@ watch(
   (newValue) => {
     if (newValue) {
       cartStore.loadFromLocalStorage();
+    } else {
+      cartStore.clearCart();
     }
   }
 );
