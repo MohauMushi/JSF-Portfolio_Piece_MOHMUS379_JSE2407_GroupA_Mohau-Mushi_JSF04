@@ -74,7 +74,7 @@
                   <p
                     class="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
                   >
-                    2
+                    {{ cartItemsCount }}
                   </p>
                 </div>
                 <span class="sr-only">View cart</span>
@@ -208,13 +208,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
+import { useCartStore } from "../store/CartStore.js";
 import AlertComponent from "./Alert.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const cartStore = useCartStore();
 
 const isOpen = ref(false);
 const isUserMenuOpen = ref(false);
@@ -242,6 +244,24 @@ const handleClickOutside = (event) => {
     isUserMenuOpen.value = false;
   }
 };
+
+const cartItemsCount = computed(() => cartStore.cartItemsCount);
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+  if (authStore.isLoggedIn) {
+    cartStore.loadFromLocalStorage();
+  }
+});
+
+watch(
+  () => authStore.isLoggedIn,
+  (newValue) => {
+    if (newValue) {
+      cartStore.loadFromLocalStorage();
+    }
+  }
+);
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
