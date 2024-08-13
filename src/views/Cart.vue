@@ -27,6 +27,7 @@
           <div class="flex flex-wrap items-center mt-2">
             <div class="flex items-center mr-4 mb-2 sm:mb-0">
               <button
+                @click="decreaseQuantity(item.id)"
                 class="bg-gray-200 h px-2 py-1 rounded-l"
               >
                 &minus;
@@ -38,12 +39,14 @@
                 class="w-12 text-center border-t border-b border-gray-200"
               />
               <button
+                @click="increaseQuantity(item.id)"
                 class="bg-gray-200 px-2 py-1 rounded-r"
               >
                 +
               </button>
             </div>
             <button
+              @click="removeItem(item.id)"
               class="text-red-500 hover:text-red-700"
             >
               Remove
@@ -55,7 +58,12 @@
         </p>
       </div>
       <div class="mt-8 flex flex-col sm:flex-row justify-between items-center">
-        
+        <button
+          @click="clearCart"
+          class="w-full sm:w-auto mb-4 sm:mb-0 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Clear Cart
+        </button>
         <div class="text-xl">
           Total: <span class="font-bold">${{ totalCost.toFixed(2) }}</span>
         </div>
@@ -72,4 +80,30 @@ const cartStore = useCartStore();
 
 const cartItems = computed(() => cartStore.items);
 const totalCost = computed(() => cartStore.totalCost);
+
+const updateQuantity = (id, quantity) => {
+  cartStore.updateQuantity(id, parseInt(quantity, 10));
+};
+
+const decreaseQuantity = (id) => {
+  const item = cartItems.value.find((item) => item.id === id);
+  if (item && item.quantity > 1) {
+    cartStore.updateQuantity(id, item.quantity - 1);
+  }
+};
+
+const increaseQuantity = (id) => {
+  const item = cartItems.value.find((item) => item.id === id);
+  if (item) {
+    cartStore.updateQuantity(id, item.quantity + 1);
+  }
+};
+
+const removeItem = (id) => {
+  cartStore.removeFromCart(id);
+};
+
+const clearCart = () => {
+  cartStore.clearCart();
+};
 </script>
