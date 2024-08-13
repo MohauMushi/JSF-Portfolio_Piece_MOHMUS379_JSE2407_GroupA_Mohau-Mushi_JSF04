@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useAuthStore } from "./auth.js";
+import { jwtDecode } from "jwt-decode";
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
@@ -44,6 +45,11 @@ export const useCartStore = defineStore("cart", {
       if (savedCart) {
         this.items = JSON.parse(savedCart);
       }
+    },
+    getUserIdFromToken(token) {
+      if (!token) return null;
+      const decodedToken = jwtDecode(token);
+      return decodedToken.sub;
     },
   },
 });
