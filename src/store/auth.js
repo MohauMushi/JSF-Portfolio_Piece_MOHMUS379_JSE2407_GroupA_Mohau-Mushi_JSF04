@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('jwt') || null,
-    user: JSON.parse(localStorage.getItem('user')) || null,
+    // user: JSON.parse(localStorage.getItem('user')) || null,
     alert: {
       show: false,
       message: '',
@@ -36,11 +36,11 @@ export const useAuthStore = defineStore('auth', {
         const data = await response.json();
         this.token = data.token;
         
-        const decodedToken = jwtDecode(this.token);
-        this.user = { ...decodedToken, username };
+        // const decodedToken = jwtDecode(this.token);
+        // this.user = { ...decodedToken, username };
         
         localStorage.setItem('jwt', this.token);
-        localStorage.setItem('user', JSON.stringify(this.user));
+        // localStorage.setItem('user', JSON.stringify(this.user));
         
         this.showAlert('Successfully logged in', 'success');
       } catch (error) {
@@ -51,9 +51,9 @@ export const useAuthStore = defineStore('auth', {
     },
     logout() {
       this.token = null;
-      this.user = null;
+      // this.user = null;
       localStorage.removeItem('jwt');
-      localStorage.removeItem('user');
+      // localStorage.removeItem('user');
       this.showAlert('Successfully logged out', 'success');
     },
     checkAuth() {
@@ -64,7 +64,7 @@ export const useAuthStore = defineStore('auth', {
           const decodedToken = jwtDecode(token);
           if (decodedToken.exp) {
             this.token = token;
-            this.user = user;
+            // this.user = user;
           } else {
             this.logout(); 
           }

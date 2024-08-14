@@ -127,7 +127,7 @@
                   />
                 </svg>
                 <span class="text-sm">{{
-                  isLoggedIn ? username : "Account"
+                  isLoggedIn ? "Logout" : "Login"
                 }}</span>
               </button>
               <div
@@ -223,7 +223,7 @@ const isUserMenuOpen = ref(false);
 const accountDropdown = ref(null);
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
-const username = computed(() => authStore.user?.username || "");
+// const username = computed(() => authStore.user?.username || "");
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
