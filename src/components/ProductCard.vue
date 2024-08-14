@@ -1,12 +1,16 @@
 <template>
   <div
-    class="flex flex-col h-full bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg"
+    class="flex flex-col h-full bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-102 hover:shadow-lg"
   >
+  
+  <div class="m-4 p-4 bg-gray-50 rounded-lg shadow-inner">
+    <CompareCheckbox :productId="product.id" />
+  </div>
     <router-link :to="`/product/${product.id}`" class="block flex-grow">
       <img
         :src="product.image"
         :alt="product.title"
-        class="w-full mt-5 h-48 object-contain"
+        class="w-full h-48 object-contain"
       />
       <div class="p-4">
         <h2 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
@@ -27,10 +31,12 @@
         </div>
       </div>
     </router-link>
-    <div class="flex items-center justify-between m-4 mt-auto">
-      <button class="p-1 rounded-full transition-colors duration-300">
+    <div class="flex justify-between m-4 p-2.5 bg-gray-50 rounded-lg shadow-inner">
+      <button
+        class="p-2 rounded-full transition-colors duration-300 hover:bg-gray-200"
+      >
         <svg
-          class="h-6 w-6 hover:text-red-500 hover:fill-red-500"
+          class="h-6 w-6 text-gray-600 hover:text-red-500 hover:fill-red-500"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -45,22 +51,24 @@
           />
         </svg>
       </button>
+
       <div
         @mouseenter="handleButtonHover(true)"
         @mouseleave="handleButtonHover(false)"
+        class="relative"
       >
         <button
           @click="handleAddToCart"
           :disabled="isAddToCartDisabled"
           :class="[
-            'inline-flex items-center justify-center px-3 py-2 bg-[#354961] text-white text-sm font-medium rounded-md transition-colors duration-300',
+            'flex items-center justify-center w-full px-4 py-2 bg-[#354961] text-white text-sm font-medium rounded-md transition-colors duration-300',
             isAddToCartDisabled
               ? 'opacity-50 cursor-not-allowed'
               : 'hover:bg-[#415a77]',
           ]"
         >
           <svg
-            class="h-6 w-6 mr-2"
+            class="h-5 w-5 mr-2"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -85,25 +93,39 @@
 <script setup>
 import { ref, computed } from "vue";
 import StarRating from "./StarRating.vue";
-import Notification from "./ButtonDisabledNotification.vue"
+import Notification from "./ButtonDisabledNotification.vue";
 import { useCartStore } from "../store/CartStore";
+import { useComparisonStore } from "../store/ComparisonStore";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
+import CompareCheckbox from "./CompareCheckbox.vue";
 
 const props = defineProps({
   product: {
     type: Object,
     required: true,
   },
+  components: {
+    CompareCheckbox,
+  },
 });
 
 const cartStore = useCartStore();
+const comparisonStore = useComparisonStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
 const showNotification = ref(false);
 
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
+
+const addToComparison = () => {
+  if (authStore.isLoggedIn) {
+    comparisonStore.addToComparison(props.product);
+  } else {
+    authStore.showAuthModal("comparison");
+  }
+};
 
 const handleAddToCart = () => {
   if (authStore.isLoggedIn) {
