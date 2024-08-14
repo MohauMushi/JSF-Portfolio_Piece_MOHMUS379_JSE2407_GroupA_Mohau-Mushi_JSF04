@@ -1,11 +1,30 @@
 <template>
   <div
+    class="fixed top-[5.5rem] left-[46%] transform -translate-x-1/2 z-50 w-11/12 max-w-md"
+  >
+    <Notification
+      v-if="showNotification"
+      message="Please log in to add items to your cart"
+      :duration="3000"
+    />
+    <Notification
+      v-if="showCompareNotification"
+      message="Please log in to compare products"
+      :duration="3000"
+    />
+  </div>
+  <div
     class="flex flex-col h-full bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-102 hover:shadow-lg"
   >
-  
-  <div class="m-4 p-4 bg-gray-50 rounded-lg shadow-inner">
-    <CompareCheckbox :productId="product.id" />
-  </div>
+    <div class="m-4 p-4 bg-gray-50 rounded-lg shadow-inner">
+      <div
+        @mouseenter="handleCompareHover(true)"
+        @mouseleave="handleCompareHover(false)"
+        class="relative"
+      >
+        <CompareCheckbox :productId="product.id" />
+      </div>
+    </div>
     <router-link :to="`/product/${product.id}`" class="block flex-grow">
       <img
         :src="product.image"
@@ -31,7 +50,9 @@
         </div>
       </div>
     </router-link>
-    <div class="flex justify-between m-4 p-2.5 bg-gray-50 rounded-lg shadow-inner">
+    <div
+      class="flex justify-between m-4 p-2.5 bg-gray-50 rounded-lg shadow-inner"
+    >
       <button
         class="p-2 rounded-full transition-colors duration-300 hover:bg-gray-200"
       >
@@ -82,11 +103,6 @@
         </button>
       </div>
     </div>
-    <Notification
-      v-if="showNotification"
-      message="Please log in to add items to your cart"
-      :duration="3000"
-    />
   </div>
 </template>
 
@@ -116,6 +132,7 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const showNotification = ref(false);
+const showCompareNotification = ref(false);
 
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
 
@@ -140,6 +157,14 @@ const handleButtonHover = (isHovering) => {
     showNotification.value = true;
   } else {
     showNotification.value = false;
+  }
+};
+
+const handleCompareHover = (isHovering) => {
+  if (!authStore.isLoggedIn && isHovering) {
+    showCompareNotification.value = true;
+  } else {
+    showCompareNotification.value = false;
   }
 };
 </script>
