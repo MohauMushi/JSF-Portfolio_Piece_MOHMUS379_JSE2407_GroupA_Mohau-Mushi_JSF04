@@ -64,6 +64,15 @@
                 WishList
               </router-link>
             </li>
+            <!-- Comparison link -->
+            <li>
+              <router-link
+                :to="{ name: 'Comparison' }"
+                class="text-white hover:bg-teal-600 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
+              >
+                Comparison
+              </router-link>
+            </li>
             <!-- Cart icon (visible on larger screens) -->
             <li>
               <router-link

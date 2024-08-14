@@ -5,6 +5,7 @@ import ProductDetail from "../views/ProductDetail.vue";
 import Login from "../views/Login.vue";
 import Wishlist from "../views/Wishlist.vue";
 import Cart from "../views/Cart.vue";
+import Comparison from "../views/Comparison.vue";
 
 /**
  * @typedef {Object} Route
@@ -47,6 +48,12 @@ const routes = [
     component: Cart,
     meta: { requiresAuth: true },
   },
+  {
+    path: "/comparison",
+    name: "Comparison",
+    component: Comparison,
+    meta: {requiresAuth: true},
+  }
 ];
 
 /**
