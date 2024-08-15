@@ -20,7 +20,7 @@
       <div
         @mouseenter="handleCompareHover(true)"
         @mouseleave="handleCompareHover(false)"
-        class="relative"
+        class="flex justify-end"
       >
         <CompareCheckbox :productId="product.id" />
       </div>
@@ -83,9 +83,7 @@
           :disabled="isAddToCartDisabled"
           :class="[
             'flex items-center justify-center w-full px-4 py-2 bg-[#354961] text-white text-sm font-medium rounded-md transition-colors duration-300',
-            isAddToCartDisabled
-              ? 'opacity-50 cursor-not-allowed'
-              : 'hover:bg-[#415a77]',
+            isAddToCartDisabled ? 'opacity-50 cursor-pointer ' : 'hover:bg-[#415a77]',
           ]"
         >
           <svg
@@ -111,7 +109,7 @@ import { ref, computed } from "vue";
 import StarRating from "./StarRating.vue";
 import Notification from "./ButtonDisabledNotification.vue";
 import { useCartStore } from "../store/CartStore";
-import { useComparisonStore } from "../store/ComparisonStore";
+// import { useComparisonStore } from "../store/ComparisonStore";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 import CompareCheckbox from "./CompareCheckbox.vue";
@@ -127,7 +125,7 @@ const props = defineProps({
 });
 
 const cartStore = useCartStore();
-const comparisonStore = useComparisonStore();
+// const comparisonStore = useComparisonStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
@@ -136,13 +134,13 @@ const showCompareNotification = ref(false);
 
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
 
-const addToComparison = () => {
-  if (authStore.isLoggedIn) {
-    comparisonStore.addToComparison(props.product);
-  } else {
-    authStore.showAuthModal("comparison");
-  }
-};
+// const addToComparison = () => {
+//   if (authStore.isLoggedIn) {
+//     comparisonStore.addToComparison(props.product);
+//   } else {
+//     authStore.showAuthModal("comparison");
+//   }
+// };
 
 const handleAddToCart = () => {
   if (authStore.isLoggedIn) {
