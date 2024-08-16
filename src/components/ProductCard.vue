@@ -12,11 +12,19 @@
       message="Please log in to compare products"
       :duration="3000"
     />
+    <Alert
+      v-if="showAddToCartAlert"
+      :message="`product added to cart successfully!`"
+      type="success"
+      :duration="3000"
+    />
   </div>
   <div
     class="flex flex-col h-full bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-lg shadow-slate-950/5 dark:shadow-gray-900/20 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-102 hover:shadow-xl dark:hover:shadow-gray-800/40"
   >
-    <div class="m-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner dark:shadow-black/20">
+    <div
+      class="m-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner dark:shadow-black/20"
+    >
       <div
         @mouseenter="handleCompareHover(true)"
         @mouseleave="handleCompareHover(false)"
@@ -114,6 +122,7 @@ import { useCartStore } from "../store/CartStore";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 import CompareCheckbox from "./CompareCheckbox.vue";
+import Alert from "./Alert.vue";
 
 const props = defineProps({
   product: {
@@ -131,12 +140,17 @@ const router = useRouter();
 
 const showNotification = ref(false);
 const showCompareNotification = ref(false);
+const showAddToCartAlert = ref(false);
 
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
 
 const handleAddToCart = () => {
   if (authStore.isLoggedIn) {
     cartStore.addToCart(props.product);
+    showAddToCartAlert.value = true;
+    setTimeout(() => {
+      showAddToCartAlert.value = false;
+    }, 3000);
   } else {
     authStore.showAuthModal("cart");
   }
