@@ -1,23 +1,23 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between bg-gradient-to-br from-teal-200 via-yellow-100 to-teal-200 min-h-[90vh]"
+    class="flex flex-col items-center justify-between bg-gradient-to-br from-teal-200 via-yellow-100 to-teal-200 dark:from-teal-900 dark:via-gray-800 dark:to-teal-900 min-h-[90vh]"
   >
     <div class="flex-grow flex items-center justify-center w-full p-4">
       <div class="w-full max-w-md">
         <div
-          class="bg-white bg-opacity-90 rounded-xl shadow-2xl p-8 transition-all duration-300 hover:shadow-3xl"
+          class="bg-white dark:bg-gray-800 bg-opacity-90 rounded-xl shadow-2xl p-8 transition-all duration-300 hover:shadow-3xl"
         >
-          <h2 class="text-2xl font-semibold text-center mb-2 text-gray-800">
+          <h2 class="text-2xl font-semibold text-center mb-2 text-gray-800 dark:text-white">
             Welcome Back
           </h2>
-          <p class="text-sm text-center text-gray-600 mb-6">
+          <p class="text-sm text-center text-gray-600 dark:text-gray-300 mb-6">
             Sign in to continue to FluxStore
           </p>
           <form @submit.prevent="handleSubmit" class="space-y-5">
             <div>
               <label
                 for="username"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >Username</label
               >
               <input
@@ -26,12 +26,12 @@
                 v-model="username"
                 required
                 placeholder="Enter your username"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-200"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
             <label
               for="password"
-              class="block text-sm font-medium text-gray-700 mb-1"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >Password</label
             >
             <div class="relative">
@@ -41,7 +41,7 @@
                 v-model="password"
                 required
                 placeholder="Enter your password"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-200"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <button
                 type="button"
@@ -49,7 +49,7 @@
                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
               >
                 <svg
-                  class="h-6 w-6 text-gray-700"
+                  class="h-6 w-6 text-gray-700 dark:text-gray-300"
                   fill="none"
                   @click="toggleShowPassword"
                   :class="{ hidden: showPassword, block: !showPassword }"
@@ -63,7 +63,7 @@
                 </svg>
 
                 <svg
-                  class="h-6 w-6 text-gray-700"
+                  class="h-6 w-6 text-gray-700 dark:text-gray-300"
                   fill="none"
                   @click="toggleShowPassword"
                   :class="{ block: showPassword, hidden: !showPassword }"
@@ -80,16 +80,16 @@
             <div class="flex items-center justify-between text-sm">
               <label class="flex items-center">
                 <input type="checkbox" v-model="showPassword" class="mr-2" />
-                Show Password
+                <span class="text-gray-700 dark:text-gray-300">Show Password</span>
               </label>
-              <a href="#" class="text-teal-600 hover:underline"
+              <a href="#" class="text-teal-600 dark:text-teal-400 hover:underline"
                 >Forgot Password?</a
               >
             </div>
             <button
               type="submit"
               :disabled="isLoading || !username || !password"
-              class="w-full bg-gradient-to-r from-green-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-green-500 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full bg-gradient-to-r from-green-400 to-teal-500 dark:from-green-600 dark:to-teal-700 text-white px-4 py-3 rounded-lg hover:from-green-500 hover:to-teal-600 dark:hover:from-green-700 dark:hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {{ isLoading ? "Signing In..." : "Sign In" }}
               <svg
@@ -106,12 +106,12 @@
                 />
               </svg>
             </button>
-            <div v-if="error" class="text-red-500 text-sm text-center mt-2">
+            <div v-if="error" class="text-red-500 dark:text-red-400 text-sm text-center mt-2">
               {{ error }}
             </div>
             <div class="text-center text-sm mt-4">
-              <span class="text-gray-600">New to FluxStore?</span>
-              <a href="#" class="text-teal-600 hover:underline ml-1 font-medium"
+              <span class="text-gray-600 dark:text-gray-400">New to FluxStore?</span>
+              <a href="#" class="text-teal-600 dark:text-teal-400 hover:underline ml-1 font-medium"
                 >Create an account</a
               >
             </div>
@@ -124,7 +124,7 @@
         :type="authStore.alert.type"
       />
     </div>
-    <footer class="w-full text-center text-sm text-gray-600 mb-16 p-4">
+    <footer class="w-full text-center text-sm text-gray-600 dark:text-gray-400 mb-16 p-4">
       <a href="#" class="hover:underline">Contact Us</a> •
       <span>&copy; {{ currentYear }} FluxStore All Rights Reserved</span>
     </footer>

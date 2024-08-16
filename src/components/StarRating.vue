@@ -7,7 +7,7 @@
       :key="star"
       :class="[
         'w-5 h-5',
-        star <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-300',
+        star <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500',
       ]"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"

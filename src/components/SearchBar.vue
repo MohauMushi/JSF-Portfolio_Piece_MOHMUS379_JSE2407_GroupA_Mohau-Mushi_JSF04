@@ -8,13 +8,13 @@
         id="search-input"
         v-model="searchTerm"
         @input="handleInput"
-        class="p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-teal-500 focus:border-teal-500"
+        class="p-2.5 w-full z-20 text-sm text-gray-900 dark:text-white dark:bg-gray-700 bg-gray-50 border-none rounded-lg border focus:ring-teal-500 focus:border-teal-500"
         placeholder="Search products..."
       />
       <!-- Search button -->
       <button
         type="button"
-        class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-teal-700 rounded-e-lg border border-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+        class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-teal-700 dark:bg-gray-950 rounded-e-lg border border-teal-700 dark:border-gray-700 focus:ring-4 focus:outline-none"
       >
         <!-- Search icon SVG -->
         <svg

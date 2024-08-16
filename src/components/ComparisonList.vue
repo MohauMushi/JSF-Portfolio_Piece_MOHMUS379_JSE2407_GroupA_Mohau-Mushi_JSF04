@@ -1,26 +1,34 @@
 <template>
-  <div class="comparison-list max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h2 class="text-3xl font-extrabold text-gray-900 mb-5 text-center">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h2
+      class="text-3xl font-extrabold text-gray-900 dark:text-white mb-5 text-center"
+    >
       Product Comparison
     </h2>
     <div
       v-if="comparisonList.length === 0"
-      class="text-center py-12 bg-gray-50 rounded-lg"
+      class="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-lg"
     >
-      <p class="text-xl text-gray-600">
+      <p class="text-xl text-gray-600 dark:text-yellow-50">
         Your comparison list is empty. Add some products to compare!
       </p>
+      <router-link
+        to="/"
+        class="mt-4 inline-block bg-teal-500 dark:bg-[#7a5af5] dark:hover:bg-[#9171f8] text-white px-4 py-2 rounded hover:bg-teal-600"
+      >
+        Continue Comparing
+      </router-link>
     </div>
     <div v-else class="overflow-x-auto">
       <table
-        class="w-full border-collapse bg-white shadow-lg rounded-lg overflow-hidden"
+        class="w-full border-collapse bg-white dark:bg-[#282828] shadow-lg rounded-lg overflow-hidden"
       >
-        <thead class="bg-white">
+        <thead class="bg-white dark:bg-gray-800">
           <tr>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-6 py-3 text-left text-xs font-medium text-black dark:text-slate-50 uppercase tracking-wider"
             >
-              Specification
+              Product Image
             </th>
             <th
               v-for="product in comparisonList"
@@ -33,37 +41,35 @@
                   :alt="product.title"
                   class="w-32 h-32 object-contain mb-2"
                 />
-                <p class="text-sm font-semibold text-gray-900">
+                <p
+                  class="text-sm font-semibold text-gray-900 dark:text-slate-50"
+                >
                   {{ product.title }}
                 </p>
-                <button
-                  @click="removeFromComparison(product.id)"
-                  class="mt-2 text-sm text-red-600 hover:text-red-800 transition duration-150 ease-in-out"
-                >
-                  Remove
-                </button>
               </div>
             </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody
+          class="divide-y divide-gray-200 dark:divide-slate-600 dark:bg-gray-800"
+        >
           <tr>
             <td
-              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-50"
             >
               Price
             </td>
             <td
               v-for="product in comparisonList"
               :key="product.id"
-              class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500"
+              class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-slate-50"
             >
               ${{ product.price.toFixed(2) }}
             </td>
           </tr>
           <tr>
             <td
-              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-50"
             >
               Rating
             </td>
@@ -72,21 +78,48 @@
               :key="product.id"
               class="px-6 py-4 whitespace-nowrap text-center"
             >
-              <StarRating :rating="product.rating.rate" />
+              <div class="flex flex-col items-center">
+                <StarRating :rating="product.rating.rate" />
+                <p class="text-sm text-gray-500 dark:text-slate-300 mt-1">
+                  {{ product.rating.rate.toFixed(1) }} ({{
+                    product.rating.count
+                  }}
+                  reviews)
+                </p>
+              </div>
             </td>
           </tr>
           <tr>
             <td
-              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-50"
             >
               Description
             </td>
             <td
               v-for="product in comparisonList"
               :key="product.id"
-              class="px-6 py-4 text-sm text-gray-500"
+              class="px-6 py-4 text-sm text-gray-500 dark:text-slate-50"
             >
               <p class="line-clamp-3">{{ product.description }}</p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-50"
+            >
+              Actions
+            </td>
+            <td
+              v-for="product in comparisonList"
+              :key="product.id"
+              class="px-6 py-4 text-center"
+            >
+            <button
+                @click="removeFromComparison(product.id)"
+                class="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
+              >
+                Remove
+              </button>
             </td>
           </tr>
         </tbody>
@@ -104,7 +137,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useComparisonStore } from "../store/ComparisonStore";
 import StarRating from "./StarRating.vue";
 

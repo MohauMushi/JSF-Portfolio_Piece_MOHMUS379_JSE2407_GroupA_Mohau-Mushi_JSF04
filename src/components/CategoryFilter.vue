@@ -2,7 +2,7 @@
   <!-- Container for the category filter dropdown -->
   <div class="w-full md:w-auto mb-4 md:mb-0">
     <!-- Label for the category filter dropdown -->
-    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+    <label for="category" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">
       Filter by Category:
     </label>
     <!-- Category filter dropdown -->
@@ -10,7 +10,7 @@
       id="category"
       :value="selectedCategory"
       @change="handleCategoryChange"
-      class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+      class="block w-full pl-3 pr-10 py-2 dark:bg-gray-700 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
     >
       <!-- Default option for all categories -->
       <option value="">All Categories</option>

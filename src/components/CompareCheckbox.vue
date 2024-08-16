@@ -6,9 +6,9 @@
         :checked="isChecked"
         @change="toggleComparison"
         :disabled="!isLoggedIn"
-        class="form-checkbox cursor-pointer h-5 w-5 text-[#354961] transition duration-150 ease-in-out"
+        class="form-checkbox cursor-pointer h-5 w-5 text-[#354961] dark:text-[#7a5af5] transition duration-150 ease-in-out"
       />
-      <span class="ml-2 text-sm text-gray-700">Compare</span>
+      <span class="ml-2 text-sm dark:text-white text-gray-700">Compare</span>
     </label>
     <Notification
       v-if="showNotification"
@@ -18,6 +18,7 @@
     />
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed } from "vue";

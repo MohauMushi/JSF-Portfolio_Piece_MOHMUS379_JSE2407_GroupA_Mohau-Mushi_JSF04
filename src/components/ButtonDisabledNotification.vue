@@ -2,7 +2,7 @@
   <Transition name="fade">
     <div v-if="isVisible" class="fixed top-4 right-4 z-50 max-w-sm">
       <div
-        class="bg-teal-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center"
+        class="bg-teal-600 dark:bg-gray-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center"
       >
         <span class="mr-2">
           <svg

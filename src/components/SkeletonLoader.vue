@@ -7,10 +7,12 @@
     <div
       v-for="_ in count"
       :key="_"
-      class="animate-pulse bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
+      class="animate-pulse bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow shadow-slate-950/5 dark:shadow-none rounded-2xl overflow-hidden"
     >
       <!-- Skeleton for product image -->
-      <div class="flex items-center justify-center h-48 bg-gray-400">
+      <div
+        class="flex items-center justify-center h-48 bg-gray-300 dark:bg-gray-700"
+      >
         <!-- Placeholder SVG for product image -->
         <svg
           class="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -31,19 +33,19 @@
       <!-- Skeleton for product details -->
       <div class="p-4">
         <!-- Placeholder for product title -->
-        <div class="h-4 bg-gray-400 rounded w-3/4 mb-2"></div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
         <!-- Placeholder for product description (line 1) -->
-        <div class="h-4 bg-gray-400 rounded w-1/2 mb-2"></div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-2"></div>
         <!-- Placeholder for product description (line 2) -->
-        <div class="h-4 bg-gray-400 rounded w-1/4"></div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
       </div>
 
       <!-- Skeleton for price and action button -->
       <div class="p-4 flex justify-between items-center">
         <!-- Placeholder for price -->
-        <div class="h-6 bg-gray-400 rounded w-1/4"></div>
+        <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
         <!-- Placeholder for action button -->
-        <div class="h-8 bg-gray-400 rounded w-1/3"></div>
+        <div class="h-8 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
       </div>
     </div>
   </div>
