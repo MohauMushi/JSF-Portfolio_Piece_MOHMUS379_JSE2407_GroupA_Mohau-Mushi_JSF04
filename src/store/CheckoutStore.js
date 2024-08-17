@@ -11,6 +11,9 @@ export const useCheckoutStore = defineStore("checkout", {
     },
     orderSummary: null,
     paymentMethod: "",
+    orderHistory: [],
+    checkoutError: null,
+    orderConfirmation: null,
   }),
 
   actions: {
@@ -36,6 +39,44 @@ export const useCheckoutStore = defineStore("checkout", {
     },
     setPaymentMethod(method) {
       this.paymentMethod = method;
+    },
+    async placeOrder() {
+      if (
+        !this.userInfo.name ||
+        !this.userInfo.address ||
+        !this.userInfo.email
+      ) {
+        this.checkoutError = "Please provide all required information.";
+        return;
+      }
+
+      if (!this.paymentMethod) {
+        this.checkoutError = "Please select a payment method.";
+        return;
+      }
+
+      try {
+        // Simulating API call to process payment
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        const success = Math.random() > 0.2;
+
+        if (success) {
+          const orderNumber = Math.floor(Math.random() * 1000000);
+          this.orderConfirmation = `Order #${orderNumber} placed successfully!`;
+          this.orderHistory.push({
+            orderNumber,
+            date: new Date().toISOString(),
+            total: this.orderSummary.totalCost,
+            status: "Processing",
+          });
+          useCartStore().clearCart();
+        } else {
+          throw new Error("Payment failed");
+        }
+      } catch (error) {
+        this.checkoutError = error.message;
+      }
     },
   },
 });
