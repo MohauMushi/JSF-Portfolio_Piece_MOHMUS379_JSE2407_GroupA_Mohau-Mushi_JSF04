@@ -79,18 +79,34 @@
           Total: <span class="font-bold">${{ totalCost.toFixed(2) }}</span>
         </div>
       </div>
+
+      <div class="flex justify-center">
+        <button
+          @click="openCheckoutModal"
+          class="w-64 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Proceed to Checkout
+        </button>
+      </div>
     </div>
+
+    <CheckoutModal :is-open="isCheckoutModalOpen" @close="closeCheckoutModal" />
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useCartStore } from "../store/CartStore.js";
+import { useCheckoutStore } from "../store/CheckoutStore.js";
+import CheckoutModal from "../components/CheckoutModal.vue";
 
 const cartStore = useCartStore();
+const checkoutStore = useCheckoutStore();
 
 const cartItems = computed(() => cartStore.items);
 const totalCost = computed(() => cartStore.totalCost);
+
+const isCheckoutModalOpen = ref(false);
 
 const updateQuantity = (id, quantity) => {
   cartStore.updateQuantity(id, parseInt(quantity, 10));
@@ -116,5 +132,14 @@ const removeItem = (id) => {
 
 const clearCart = () => {
   cartStore.clearCart();
+};
+
+const openCheckoutModal = () => {
+  checkoutStore.initiateCheckout();
+  isCheckoutModalOpen.value = true;
+};
+
+const closeCheckoutModal = () => {
+  isCheckoutModalOpen.value = false;
 };
 </script>
