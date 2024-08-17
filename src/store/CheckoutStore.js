@@ -78,5 +78,22 @@ export const useCheckoutStore = defineStore("checkout", {
         this.checkoutError = error.message;
       }
     },
+
+    cancelOrder(orderNumber) {
+      const orderIndex = this.orderHistory.findIndex(
+        (order) => order.orderNumber === orderNumber
+      );
+      if (orderIndex !== -1) {
+        this.orderHistory[orderIndex].status = "Cancelled";
+      }
+    },
+
+    clearCheckoutState() {
+      this.userInfo = { name: "", address: "", email: "" };
+      this.paymentMethod = "";
+      this.orderSummary = null;
+      this.checkoutError = null;
+      this.orderConfirmation = null;
+    },
   },
 });
