@@ -10,6 +10,7 @@ export const useCheckoutStore = defineStore("checkout", {
       email: "",
     },
     orderSummary: null,
+    paymentMethod: "",
   }),
 
   actions: {
@@ -29,6 +30,12 @@ export const useCheckoutStore = defineStore("checkout", {
         items: cartStore.items,
         totalCost: cartStore.totalCost,
       };
+    },
+    updateUserInfo(info) {
+      this.userInfo = { ...this.userInfo, ...info };
+    },
+    setPaymentMethod(method) {
+      this.paymentMethod = method;
     },
   },
 });
