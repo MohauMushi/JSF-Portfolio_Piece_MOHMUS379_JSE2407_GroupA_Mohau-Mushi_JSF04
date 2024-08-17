@@ -29,6 +29,19 @@
           class="w-full p-2 mb-2 border rounded dark:bg-gray-700 dark:text-white"
         />
       </div>
+      <!-- Payment Method -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-2 dark:text-white">
+          Payment Method
+        </h3>
+        <select
+          v-model="checkoutStore.paymentMethod"
+          class="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+        >
+          <option value="">Select payment method</option>
+          <option value="paypal">PayPal</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
