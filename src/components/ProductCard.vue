@@ -2,22 +2,24 @@
   <div
     class="fixed top-[5.5rem] left-[46%] transform -translate-x-1/2 z-50 w-11/12 max-w-md"
   >
-    <Notification
-      v-if="showNotification"
-      message="Please log in to add items to your cart"
-      :duration="3000"
-    />
-    <Notification
-      v-if="showCompareNotification"
-      message="Please log in to compare products"
-      :duration="3000"
-    />
-    <Alert
-      v-if="showAddToCartAlert"
-      :message="`product added to cart successfully!`"
-      type="success"
-      :duration="3000"
-    />
+    <div class="w-full max-w-sm sm:max-w-md">
+      <Notification
+        v-if="showNotification"
+        message="Please log in to add items to your cart"
+        :duration="3000"
+      />
+      <Notification
+        v-if="showCompareNotification"
+        message="Please log in to compare products"
+        :duration="3000"
+      />
+      <Alert
+        v-if="showAddToCartAlert"
+        :message="`product added to cart successfully!`"
+        type="success"
+        :duration="3000"
+      />
+    </div>
   </div>
   <div
     class="flex flex-col h-full bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-lg shadow-slate-950/5 dark:shadow-gray-900/20 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-102 hover:shadow-xl dark:hover:shadow-gray-800/40"

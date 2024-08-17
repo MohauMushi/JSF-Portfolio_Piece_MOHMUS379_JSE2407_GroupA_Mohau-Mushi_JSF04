@@ -79,8 +79,8 @@
                   :class="[
                     'inline-flex items-center justify-center px-3 py-2 mt-2 bg-[#354961] dark:bg-[#1a1625] text-white text-sm font-medium rounded-md transition-colors duration-300',
                     isAddToCartDisabled
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'hover:bg-[#415a77] dark:hover:bg-[#2f2b3a]',
+                      ? 'opacity-50 cursor-pointer dark:opacity-40'
+                      : 'hover:bg-[#384758] dark:hover:bg-gray-950',
                   ]"
                 >
                   <svg
@@ -118,12 +118,25 @@
         </p>
       </div>
     </div>
-    <Notification
-      v-if="showNotification"
-      class="fixed top-5 left-1/2 mt-20 transform -translate-x-1/2 z-50 w-11/12 max-w-md"
-      message="Please log in to add items to your cart"
-      :duration="3000"
-    />
+    <div
+      class="fixed top-[5.5rem] left-[46%] transform -translate-x-1/2 z-50 w-11/12 max-w-md"
+    >
+      <div class="w-full max-w-sm sm:max-w-md">
+        <Notification
+          v-if="showNotification"
+          class="mb-2 pointer-events-auto"
+          message="Please log in to add items to your cart"
+          :duration="3000"
+        />
+        <Alert
+          v-if="showAddToCartAlert"
+          class="pointer-events-auto"
+          message="Product added to cart successfully!"
+          type="success"
+          :duration="3000"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -135,6 +148,7 @@ import { useCartStore } from "../store/CartStore.js";
 import { useAuthStore } from "../store/auth";
 import ProductDetailSkeleton from "../components/ProductDetailSkeleton.vue";
 import Notification from "../components/ButtonDisabledNotification.vue";
+import Alert from "../components/Alert.vue";
 
 /**
  * @constant {Object} route - Vue Router instance for accessing route parameters
@@ -160,6 +174,7 @@ const product = ref(null);
  */
 const loading = ref(true);
 const showNotification = ref(false);
+const showAddToCartAlert = ref(false);
 
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
 
@@ -184,6 +199,10 @@ onMounted(async () => {
 const handleAddToCart = () => {
   if (authStore.isLoggedIn) {
     cartStore.addToCart(product.value);
+    showAddToCartAlert.value = true;
+    setTimeout(() => {
+      showAddToCartAlert.value = false;
+    }, 3000);
   } else {
     authStore.showAuthModal("cart");
   }
