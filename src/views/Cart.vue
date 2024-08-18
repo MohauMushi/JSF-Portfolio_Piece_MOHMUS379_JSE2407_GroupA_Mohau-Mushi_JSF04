@@ -83,7 +83,7 @@
       <div class="flex justify-center">
         <button
           @click="openCheckoutModal"
-          class="w-64 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          class="w-64 bg-teal-500 dark:bg-[#29223a] hover:bg-teal-600 dark:hover:bg-[#2f2b3a] text-white px-4 py-2 rounded"
         >
           Proceed to Checkout
         </button>
