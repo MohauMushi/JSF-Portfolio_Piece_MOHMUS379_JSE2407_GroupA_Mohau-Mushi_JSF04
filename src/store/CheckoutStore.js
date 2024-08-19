@@ -96,4 +96,15 @@ export const useCheckoutStore = defineStore("checkout", {
       this.orderConfirmation = null;
     },
   },
+
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'checkout',
+        storage: localStorage,
+        paths: ['orderHistory']
+      }
+    ]
+  }
 });
