@@ -60,6 +60,15 @@
           <ul
             class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700"
           >
+            <!-- OrderHistory link -->
+            <li>
+              <router-link
+                :to="{ name: 'OrderHistory' }"
+                class="text-white hover:bg-teal-600 dark:hover:bg-gray-700 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
+              >
+                Order History
+              </router-link>
+            </li>
             <!-- Wishlist link -->
             <li>
               <router-link
@@ -221,7 +230,6 @@
             </li>
           </ul>
         </div>
-        
       </div>
     </nav>
     <AlertComponent
@@ -229,9 +237,7 @@
       :message="authStore.alert.message"
       :type="authStore.alert.type"
     />
-    
   </header>
-  
 </template>
 
 <script setup>
