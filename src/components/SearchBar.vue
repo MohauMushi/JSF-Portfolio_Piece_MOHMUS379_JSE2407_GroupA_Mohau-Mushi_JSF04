@@ -1,6 +1,6 @@
 <template>
   <!-- Main container for the search bar -->
-  <div class="w-full md:w-auto">
+  <div class="w-full md:w-auto mb-3">
     <div class="relative">
       <!-- Search input field -->
       <input
