@@ -14,6 +14,7 @@
     </div>
     <!-- Content state -->
     <div v-else>
+      <WishlistCarousel v-if="authStore.isLoggedIn" />
       <div class="mb-6 flex flex-wrap items-center justify-between">
         <CategoryFilter
           :categories="categories"
@@ -43,11 +44,13 @@
 import { ref, onMounted, computed } from "vue";
 import { useProductStore } from "../store/ProductStore.js";
 import { useFilterSortStore } from "../store/FilterSortStore.js";
+import { useAuthStore } from "../store/auth.js";
 import ProductGrid from "../components/ProductGrid.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
 import CategoryFilter from "../components/CategoryFilter.vue";
 import PriceSort from "../components/PriceSort.vue";
 import SearchBar from "../components/SearchBar.vue";
+import WishlistCarousel from "../components/WishlistCarousel.vue";
 
 /**
  * @type {import('vue').Ref<boolean>}
@@ -72,6 +75,7 @@ const productStore = useProductStore();
  * @description Store for managing filtering and sorting state.
  */
 const filterSortStore = useFilterSortStore();
+const authStore = useAuthStore();
 
 /**
  * @type {import('vue').ComputedRef<Array>}
