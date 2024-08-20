@@ -73,9 +73,15 @@
             <li>
               <router-link
                 :to="{ name: 'Wishlist' }"
-                class="text-white hover:bg-teal-600 dark:hover:bg-gray-700 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
+                class="relative text-white hover:bg-teal-600 dark:hover:bg-gray-700 hover:text-white block px-3 py-1 rounded-md text-base font-medium md:m-0"
               >
-                WishList
+                Wishlist
+                <span
+                  v-if="wishlistItemsCount > 0"
+                  class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                >
+                  {{ wishlistItemsCount }}
+                </span>
               </router-link>
             </li>
             <!-- Comparison link -->
@@ -247,11 +253,13 @@ import { useAuthStore } from "../store/auth.js";
 import { useCartStore } from "../store/CartStore.js";
 import AlertComponent from "./Alert.vue";
 import { useThemeStore } from "../store/ThemeStore.js";
+import { useWishlistStore } from "../store/WishlistStore.js";
 
 const router = useRouter();
 const authStore = useAuthStore();
 const cartStore = useCartStore();
 const themeStore = useThemeStore();
+const wishlistStore = useWishlistStore();
 
 const isOpen = ref(false);
 const isUserMenuOpen = ref(false);
@@ -280,6 +288,7 @@ const handleClickOutside = (event) => {
 };
 
 const cartItemsCount = computed(() => cartStore.cartItemsCount);
+const wishlistItemsCount = computed(() => wishlistStore.itemCount);
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
@@ -301,9 +310,26 @@ watch(
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
+  if (authStore.isLoggedIn) {
+    cartStore.loadFromLocalStorage();
+    wishlistStore.loadFromLocalStorage();
+  }
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
 });
+
+watch(
+  () => authStore.isLoggedIn,
+  (newValue) => {
+    if (newValue) {
+      cartStore.loadFromLocalStorage();
+      wishlistStore.loadFromLocalStorage();
+    } else {
+      cartStore.clearCart();
+      wishlistStore.clearWishlist();
+    }
+  }
+);
 </script>
