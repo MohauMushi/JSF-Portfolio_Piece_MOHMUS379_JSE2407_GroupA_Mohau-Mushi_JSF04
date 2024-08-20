@@ -65,9 +65,17 @@
     <div
       class="flex justify-between m-4 p-2.5 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner dark:shadow-black/20"
     >
-      <button class="p-2 rounded-full transition-colors duration-300">
+      <button
+        @click="toggleWishlist"
+        class="p-2 rounded-full transition-colors duration-300"
+      >
         <svg
-          class="h-6 w-6 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:fill-red-500 dark:hover:fill-red-400"
+          class="h-6 w-6"
+          :class="[
+            isInWishlist
+              ? 'text-red-500 dark:text-red-400 fill-red-500 dark:fill-red-400'
+              : 'text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:fill-red-500 dark:hover:fill-red-400',
+          ]"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -125,6 +133,7 @@ import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 import CompareCheckbox from "./CompareCheckbox.vue";
 import Alert from "./Alert.vue";
+import { useWishlistStore } from "../store/WishlistStore";
 
 const props = defineProps({
   product: {
@@ -139,6 +148,7 @@ const props = defineProps({
 const cartStore = useCartStore();
 const authStore = useAuthStore();
 const router = useRouter();
+const wishlistStore = useWishlistStore();
 
 const showNotification = ref(false);
 const showCompareNotification = ref(false);
@@ -171,6 +181,22 @@ const handleCompareHover = (isHovering) => {
     showCompareNotification.value = true;
   } else {
     showCompareNotification.value = false;
+  }
+};
+
+const isInWishlist = computed(() =>
+  wishlistStore.isInWishlist(props.product.id)
+);
+
+const toggleWishlist = () => {
+  if (authStore.isLoggedIn) {
+    if (isInWishlist.value) {
+      wishlistStore.removeFromWishlist(props.product.id);
+    } else {
+      wishlistStore.addToWishlist(props.product);
+    }
+  } else {
+    authStore.showAuthModal("wishlist");
   }
 };
 </script>
