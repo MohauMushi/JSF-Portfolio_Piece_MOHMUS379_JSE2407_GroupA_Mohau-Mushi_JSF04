@@ -7,7 +7,7 @@
       ]"
     >
       <div
-        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+        class="min-w-screen flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <!-- Logo and brand name -->
         <router-link
