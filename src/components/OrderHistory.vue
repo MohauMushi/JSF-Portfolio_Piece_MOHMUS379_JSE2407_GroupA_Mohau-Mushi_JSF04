@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h1
       class="text-3xl font-extrabold text-gray-900 dark:text-white mb-8 text-center"
     >
@@ -19,11 +19,11 @@
         Continue Shopping
       </router-link>
     </div>
-    <div v-else class="space-y-6">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="order in orderHistory"
         :key="order.orderNumber"
-        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md max-w-md mx-auto"
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md"
       >
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
