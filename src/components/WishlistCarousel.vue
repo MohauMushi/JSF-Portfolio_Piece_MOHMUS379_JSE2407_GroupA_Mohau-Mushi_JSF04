@@ -114,11 +114,23 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useWishlistStore } from "../store/WishlistStore";
 import StarRating from "../components/StarRating.vue";
 
+/**
+ * The WishlistView component displays the user's wishlist items.
+ */
 const wishlistStore = useWishlistStore();
 const currentIndex = ref(0);
 const windowWidth = ref(window.innerWidth);
 
+/**
+ * Computed property that returns the user's wishlist items.
+ * @returns {Array} - The wishlist items.
+ */
 const wishlistItems = computed(() => wishlistStore.items);
+
+/**
+ * Computed property that determines the number of items to display per page based on the window width.
+ * @returns {number} - The number of items to display per page.
+ */
 const itemsPerPage = computed(() => {
   if (windowWidth.value >= 1024) return 4;
   if (windowWidth.value >= 768) return 3;
@@ -126,48 +138,89 @@ const itemsPerPage = computed(() => {
   return 1;
 });
 
+/**
+ * Computed property that calculates the number of pages based on the number of wishlist items and the items per page.
+ * @returns {number} - The number of pages.
+ */
 const pageCount = computed(() =>
   Math.ceil(wishlistItems.value.length / itemsPerPage.value)
 );
+
+/**
+ * Computed property that determines the maximum index for the current page.
+ * @returns {number} - The maximum index for the current page.
+ */
 const maxIndex = computed(() => Math.max(pageCount.value - 1, 0));
 
+/**
+ * Computed property that determines whether to show the navigation arrows based on the number of wishlist items and the items per page.
+ * @returns {boolean} - True if the navigation arrows should be shown, false otherwise.
+ */
 const showArrows = computed(
   () => wishlistItems.value.length > itemsPerPage.value
 );
+
+/**
+ * Computed property that determines whether to show the pagination controls based on the number of wishlist items and the items per page.
+ * @returns {boolean} - True if the pagination controls should be shown, false otherwise.
+ */
 const showPagination = computed(
   () => wishlistItems.value.length > itemsPerPage.value
 );
 
+/**
+ * Computed property that determines whether there are more items to display on the next page.
+ * @returns {boolean} - True if there are more items to display on the next page, false otherwise.
+ */
 const hasMoreItems = computed(() => {
   const nextPageStart = (currentIndex.value + 1) * itemsPerPage.value;
   return nextPageStart < wishlistItems.value.length;
 });
 
+/**
+ * Navigates to the previous slide.
+ */
 const prevSlide = () => {
   if (currentIndex.value > 0) {
     currentIndex.value--;
   }
 };
 
+/**
+ * Navigates to the next slide.
+ */
 const nextSlide = () => {
   if (hasMoreItems.value) {
     currentIndex.value++;
   }
 };
 
+/**
+ * Navigates to the specified page.
+ * @param {number} index - The index of the page to navigate to.
+ */
 const goToPage = (index) => {
   currentIndex.value = index;
 };
 
+/**
+ * Handles the window resize event and updates the window width and current index.
+ */
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
   currentIndex.value = 0;
 };
 
+/**
+ * Attaches the window resize event listener when the component is mounted.
+ */
 onMounted(() => {
   window.addEventListener("resize", handleResize);
 });
 
+/**
+ * Removes the window resize event listener when the component is unmounted.
+ */
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
 });

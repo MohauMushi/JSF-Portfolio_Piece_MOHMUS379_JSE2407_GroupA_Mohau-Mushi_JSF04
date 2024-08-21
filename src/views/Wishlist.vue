@@ -98,23 +98,37 @@ import { useWishlistStore } from "../store/WishlistStore";
 import { useCartStore } from "../store/CartStore";
 import StarRating from "../components/StarRating.vue";
 
+// Import stores for wishlist and cart management.
 const wishlistStore = useWishlistStore();
 const cartStore = useCartStore();
 
+// Compute the list of wishlist items.
 const wishlistItems = computed(() => wishlistStore.items);
 
+// Clone the wishlist items for rendering.
 const WishlistItems = computed(() => {
   return [...wishlistItems.value];
 });
 
+/**
+ * Adds an item to the cart.
+ * @param {Object} item - The item to add to the cart.
+ */
 const addToCart = (item) => {
   cartStore.addToCart(item);
 };
 
+/**
+ * Removes an item from the wishlist.
+ * @param {number} itemId - The ID of the item to remove.
+ */
 const removeFromWishlist = (itemId) => {
   wishlistStore.removeFromWishlist(itemId);
 };
 
+/**
+ * Clears all items from the wishlist.
+ */
 const clearWishlist = () => {
   wishlistStore.clearWishlist();
 };

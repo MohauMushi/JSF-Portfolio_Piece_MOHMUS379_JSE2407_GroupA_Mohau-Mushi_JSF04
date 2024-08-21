@@ -135,13 +135,13 @@ import visaIcon from "../../public/PaymentSVG/visa.svg";
 import mastercardIcon from "../../public/PaymentSVG/mastercard.svg";
 import amexIcon from "../../public/PaymentSVG/amex.svg";
 
-const paymentIcons = {
-  paypal: paypalIcon,
-  visa: visaIcon,
-  mastercard: mastercardIcon,
-  amex: amexIcon,
-};
-
+/**
+ * A component that renders a checkout modal, allowing the user to enter their information, select a payment method, and place an order.
+ *
+ * @param {Object} props - The component's props.
+ * @param {boolean} props.isOpen - Determines whether the checkout modal should be displayed.
+ * @param {function} emit - The function to emit events from the component.
+ */
 const props = defineProps({
   isOpen: Boolean,
 });
@@ -154,6 +154,17 @@ const checkoutStore = useCheckoutStore();
 const cartItems = computed(() => cartStore.items);
 const totalCost = computed(() => cartStore.totalCost);
 
+const paymentIcons = {
+  paypal: paypalIcon,
+  visa: visaIcon,
+  mastercard: mastercardIcon,
+  amex: amexIcon,
+};
+
+/**
+ * Places an order by calling the `placeOrder` method of the `CheckoutStore`.
+ * If the order is successfully placed, the checkout modal is closed after a 3-second delay.
+ */
 const placeOrder = async () => {
   await checkoutStore.placeOrder();
   if (checkoutStore.orderConfirmation) {
@@ -163,6 +174,9 @@ const placeOrder = async () => {
   }
 };
 
+/**
+ * Closes the checkout modal by clearing the checkout state and emitting a 'close' event.
+ */
 const close = () => {
   checkoutStore.clearCheckoutState();
   emit("close");

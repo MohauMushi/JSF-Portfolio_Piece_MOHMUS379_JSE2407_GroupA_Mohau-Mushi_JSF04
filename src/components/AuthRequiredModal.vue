@@ -40,7 +40,9 @@
               </div>
             </div>
           </div>
-          <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <div
+            class="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+          >
             <button
               type="button"
               @click="handleLogin"
@@ -51,7 +53,7 @@
             <button
               type="button"
               @click="onClose"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white  text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancel
             </button>
@@ -66,6 +68,14 @@
 import { defineProps, defineEmits } from "vue";
 import { useRouter } from "vue-router";
 
+/**
+ * A modal component that displays a message and provides options for the user to login or cancel.
+ *
+ * @param {Object} props - The component's props.
+ * @param {boolean} props.isOpen - Determines whether the modal should be displayed or not.
+ * @param {string} props.destination - The destination that requires authentication.
+ * @param {function} emit - The function to emit events from the component.
+ */
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -80,10 +90,16 @@ const props = defineProps({
 const emit = defineEmits(["close"]);
 const router = useRouter();
 
+/**
+ * Emits the 'close' event to close the modal.
+ */
 const onClose = () => {
   emit("close");
 };
 
+/**
+ * Navigates the user to the login page with the destination as a query parameter.
+ */
 const handleLogin = () => {
   router.push(`/login?redirect=/${props.destination}`);
   onClose();

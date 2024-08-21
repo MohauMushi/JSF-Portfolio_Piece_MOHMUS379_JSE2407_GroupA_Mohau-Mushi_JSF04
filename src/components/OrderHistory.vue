@@ -74,10 +74,21 @@
 import { computed } from "vue";
 import { useCheckoutStore } from "../store/CheckoutStore";
 
+/**
+ * The OrderHistory component displays the user's order history.
+ */
 const checkoutStore = useCheckoutStore();
 
+/**
+ * Computed property that returns the order history from the CheckoutStore.
+ * @returns {Array} The order history.
+ */
 const orderHistory = computed(() => checkoutStore.orderHistory);
 
+/**
+ * Cancels an order with the given order number.
+ * @param {number} orderNumber - The order number to cancel.
+ */
 const cancelOrder = (orderNumber) => {
   checkoutStore.cancelOrder(orderNumber);
 };

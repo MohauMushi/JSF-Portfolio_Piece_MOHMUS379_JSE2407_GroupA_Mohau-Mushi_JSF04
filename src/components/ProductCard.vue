@@ -135,6 +135,11 @@ import CompareCheckbox from "./CompareCheckbox.vue";
 import Alert from "./Alert.vue";
 import { useWishlistStore } from "../store/WishlistStore";
 
+/**
+ * The ProductCard component displays a product card with its details, add to cart, and wishlist functionality.
+ * @prop {Object} product - The product object to be displayed in the card.
+ * @component {CompareCheckbox} - The CompareCheckbox component used for the product comparison feature.
+ */
 const props = defineProps({
   product: {
     type: Object,
@@ -154,8 +159,17 @@ const showNotification = ref(false);
 const showCompareNotification = ref(false);
 const showAddToCartAlert = ref(false);
 
+/**
+ * Computed property that determines if the add to cart button should be disabled based on the user's authentication status.
+ * @returns {boolean} - True if the add to cart button should be disabled, false otherwise.
+ */
 const isAddToCartDisabled = computed(() => !authStore.isLoggedIn);
 
+/**
+ * Handles the add to cart functionality.
+ * If the user is logged in, adds the product to the cart and shows a success alert.
+ * If the user is not logged in, shows the authentication modal.
+ */
 const handleAddToCart = () => {
   if (authStore.isLoggedIn) {
     cartStore.addToCart(props.product);
@@ -168,6 +182,11 @@ const handleAddToCart = () => {
   }
 };
 
+/**
+ * Handles the hover event on the add to cart button.
+ * If the button is disabled, shows a notification to the user.
+ * @param {boolean} isHovering - True if the user is hovering over the button, false otherwise.
+ */
 const handleButtonHover = (isHovering) => {
   if (isAddToCartDisabled.value && isHovering) {
     showNotification.value = true;
@@ -176,6 +195,11 @@ const handleButtonHover = (isHovering) => {
   }
 };
 
+/**
+ * Handles the hover event on the product comparison checkbox.
+ * If the user is not logged in, shows a notification to the user.
+ * @param {boolean} isHovering - True if the user is hovering over the checkbox, false otherwise.
+ */
 const handleCompareHover = (isHovering) => {
   if (!authStore.isLoggedIn && isHovering) {
     showCompareNotification.value = true;
@@ -184,10 +208,19 @@ const handleCompareHover = (isHovering) => {
   }
 };
 
+/**
+ * Computed property that checks if the product is in the user's wishlist.
+ * @returns {boolean} - True if the product is in the wishlist, false otherwise.
+ */
 const isInWishlist = computed(() =>
   wishlistStore.isInWishlist(props.product.id)
 );
 
+/**
+ * Toggles the product's wishlist status.
+ * If the user is logged in, adds or removes the product from the wishlist.
+ * If the user is not logged in, shows the authentication modal.
+ */
 const toggleWishlist = () => {
   if (authStore.isLoggedIn) {
     if (isInWishlist.value) {

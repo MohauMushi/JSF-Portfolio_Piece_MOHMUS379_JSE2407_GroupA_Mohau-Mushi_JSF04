@@ -5,6 +5,7 @@
     >
       Shopping Cart
     </h1>
+    <!-- If the cart is empty, display a message and a link to continue shopping -->
     <div
       v-if="cartItems.length === 0"
       class="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-lg"
@@ -17,6 +18,7 @@
         Continue Shopping
       </router-link>
     </div>
+    <!-- If the cart has items, display them -->
     <div v-else class="space-y-5 m-5">
       <div
         v-for="item in cartItems"
@@ -37,6 +39,7 @@
           </p>
           <div class="flex flex-wrap items-center mt-2">
             <div class="flex items-center mr-4 mb-2 sm:mb-0">
+              <!-- Buttons to decrease and increase the quantity -->
               <button
                 @click="decreaseQuantity(item.id)"
                 class="bg-gray-200 dark:bg-gray-700 dark:text-white h px-2 py-1 rounded-l"
@@ -56,6 +59,7 @@
                 +
               </button>
             </div>
+            <!-- Button to remove the item from the cart -->
             <button
               @click="removeItem(item.id)"
               class="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
@@ -69,6 +73,7 @@
         </p>
       </div>
       <div class="mt-8 flex flex-col sm:flex-row justify-between items-center">
+        <!-- Button to clear the entire cart -->
         <button
           @click="clearCart"
           class="w-full sm:w-auto mb-4 sm:mb-0 bg-red-500 dark:bg-red-600 text-white px-4 py-2 rounded hover:bg-red-600 dark:hover:bg-red-700"
@@ -79,7 +84,7 @@
           Total: <span class="font-bold">${{ totalCost.toFixed(2) }}</span>
         </div>
       </div>
-
+      <!-- Button to open the checkout modal -->
       <div class="flex justify-center">
         <button
           @click="openCheckoutModal"
@@ -89,7 +94,7 @@
         </button>
       </div>
     </div>
-
+    <!-- The checkout modal component -->
     <CheckoutModal :is-open="isCheckoutModalOpen" @close="closeCheckoutModal" />
   </div>
 </template>
@@ -100,18 +105,30 @@ import { useCartStore } from "../store/CartStore.js";
 import { useCheckoutStore } from "../store/CheckoutStore.js";
 import CheckoutModal from "../components/CheckoutModal.vue";
 
+// Import stores for cart and checkout management.
 const cartStore = useCartStore();
 const checkoutStore = useCheckoutStore();
 
+// Compute the list of items in the cart and the total cost.
 const cartItems = computed(() => cartStore.items);
 const totalCost = computed(() => cartStore.totalCost);
 
+// Boolean reference to manage the checkout modal visibility.
 const isCheckoutModalOpen = ref(false);
 
+/**
+ * Updates the quantity of an item in the cart.
+ * @param {number} id - The item ID.
+ * @param {number} quantity - The new quantity.
+ */
 const updateQuantity = (id, quantity) => {
   cartStore.updateQuantity(id, parseInt(quantity, 10));
 };
 
+/**
+ * Decreases the quantity of an item in the cart.
+ * @param {number} id - The item ID.
+ */
 const decreaseQuantity = (id) => {
   const item = cartItems.value.find((item) => item.id === id);
   if (item && item.quantity > 1) {
@@ -119,6 +136,10 @@ const decreaseQuantity = (id) => {
   }
 };
 
+/**
+ * Increases the quantity of an item in the cart.
+ * @param {number} id - The item ID.
+ */
 const increaseQuantity = (id) => {
   const item = cartItems.value.find((item) => item.id === id);
   if (item) {
@@ -126,19 +147,32 @@ const increaseQuantity = (id) => {
   }
 };
 
+/**
+ * Removes an item from the cart.
+ * @param {number} id - The item ID.
+ */
 const removeItem = (id) => {
   cartStore.removeFromCart(id);
 };
 
+/**
+ * Clears all items from the cart.
+ */
 const clearCart = () => {
   cartStore.clearCart();
 };
 
+/**
+ * Opens the checkout modal and initiates the checkout process.
+ */
 const openCheckoutModal = () => {
   checkoutStore.initiateCheckout();
   isCheckoutModalOpen.value = true;
 };
 
+/**
+ * Closes the checkout modal.
+ */
 const closeCheckoutModal = () => {
   isCheckoutModalOpen.value = false;
 };

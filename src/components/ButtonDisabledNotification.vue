@@ -47,6 +47,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
+/**
+ * A notification component that displays a message for a specified duration.
+ *
+ * @param {Object} props - The component's props.
+ * @param {string} props.message - The message to be displayed in the notification.
+ * @param {number} [props.duration=3000] - The duration of the notification in milliseconds.
+ */
 const props = defineProps({
   message: {
     type: String,
@@ -61,6 +68,9 @@ const props = defineProps({
 const isVisible = ref(false);
 let timer;
 
+/**
+ * Shows the notification and starts a timer to hide it after the specified duration.
+ */
 const show = () => {
   isVisible.value = true;
   timer = setTimeout(() => {
@@ -68,10 +78,16 @@ const show = () => {
   }, props.duration);
 };
 
+/**
+ * Lifecycle hook that starts the notification when the component is mounted.
+ */
 onMounted(() => {
   show();
 });
 
+/**
+ * Lifecycle hook that clears the timer when the component is unmounted.
+ */
 onUnmounted(() => {
   clearTimeout(timer);
 });

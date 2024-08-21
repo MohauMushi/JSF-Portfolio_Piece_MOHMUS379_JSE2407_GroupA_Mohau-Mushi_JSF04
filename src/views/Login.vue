@@ -7,7 +7,9 @@
         <div
           class="bg-white dark:bg-gray-800 bg-opacity-90 rounded-xl shadow-2xl p-8 transition-all duration-300 hover:shadow-3xl"
         >
-          <h2 class="text-2xl font-semibold text-center mb-2 text-gray-800 dark:text-white">
+          <h2
+            class="text-2xl font-semibold text-center mb-2 text-gray-800 dark:text-white"
+          >
             Welcome Back
           </h2>
           <p class="text-sm text-center text-gray-600 dark:text-gray-300 mb-6">
@@ -80,9 +82,13 @@
             <div class="flex items-center justify-between text-sm">
               <label class="flex items-center">
                 <input type="checkbox" v-model="showPassword" class="mr-2" />
-                <span class="text-gray-700 dark:text-gray-300">Show Password</span>
+                <span class="text-gray-700 dark:text-gray-300"
+                  >Show Password</span
+                >
               </label>
-              <a href="#" class="text-teal-600 dark:text-teal-400 hover:underline"
+              <a
+                href="#"
+                class="text-teal-600 dark:text-teal-400 hover:underline"
                 >Forgot Password?</a
               >
             </div>
@@ -106,12 +112,19 @@
                 />
               </svg>
             </button>
-            <div v-if="error" class="text-red-500 dark:text-red-400 text-sm text-center mt-2">
+            <div
+              v-if="error"
+              class="text-red-500 dark:text-red-400 text-sm text-center mt-2"
+            >
               {{ error }}
             </div>
             <div class="text-center text-sm mt-4">
-              <span class="text-gray-600 dark:text-gray-400">New to FluxStore?</span>
-              <a href="#" class="text-teal-600 dark:text-teal-400 hover:underline ml-1 font-medium"
+              <span class="text-gray-600 dark:text-gray-400"
+                >New to FluxStore?</span
+              >
+              <a
+                href="#"
+                class="text-teal-600 dark:text-teal-400 hover:underline ml-1 font-medium"
                 >Create an account</a
               >
             </div>
@@ -124,7 +137,9 @@
         :type="authStore.alert.type"
       />
     </div>
-    <footer class="w-full text-center text-sm text-gray-600 dark:text-gray-400 mb-16 p-4">
+    <footer
+      class="w-full text-center text-sm text-gray-600 dark:text-gray-400 mb-16 p-4"
+    >
       <a href="#" class="hover:underline">Contact Us</a> •
       <span>&copy; {{ currentYear }} FluxStore All Rights Reserved</span>
     </footer>
@@ -137,17 +152,32 @@ import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../store/auth.js";
 import AlertComponent from "../components/Alert.vue";
 
+// Initialize router and route objects for navigation and route information.
 const router = useRouter();
 const route = useRoute();
+
+// Import the authentication store.
 const authStore = useAuthStore();
 
+// Create reactive references for username, password, and error messages.
 const username = ref("");
 const password = ref("");
-const currentYear = computed(() => new Date().getFullYear());
-const showPassword = ref(false);
-const isLoading = ref(false);
 const error = ref("");
 
+// Compute the current year.
+const currentYear = computed(() => new Date().getFullYear());
+
+// Boolean reference to show or hide the password.
+const showPassword = ref(false);
+
+// Boolean reference to manage loading state.
+const isLoading = ref(false);
+
+/**
+ * Handles form submission for user login.
+ * Validates inputs and performs login action using the auth store.
+ * Redirects on successful login or displays an error message on failure.
+ */
 const handleSubmit = async () => {
   if (!username.value || !password.value) {
     error.value = "Username and password are required";
@@ -158,9 +188,10 @@ const handleSubmit = async () => {
   error.value = "";
 
   try {
+    // Attempt to log in using the authentication store.
     await authStore.login(username.value, password.value);
     const redirectPath = route.query.redirect || "/";
-    router.push(redirectPath);
+    router.push(redirectPath); // Redirect to the specified path.
   } catch (err) {
     error.value = "Login failed. Please check your credentials and try again.";
   } finally {
@@ -168,6 +199,9 @@ const handleSubmit = async () => {
   }
 };
 
+/**
+ * Toggles the visibility of the password input.
+ */
 const toggleShowPassword = () => {
   showPassword.value = !showPassword.value;
 };

@@ -48,6 +48,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
+/**
+ * A reusable notification component that displays a success or error message.
+ * @param {Object} props - The component's props.
+ * @param {string} props.message - The message to be displayed in the notification.
+ * @param {string} [props.type='success'] - The type of the notification ('success' or 'error').
+ * @param {number} [props.duration=3000] - The duration of the notification in milliseconds.
+ */
 const props = defineProps({
   message: {
     type: String,
@@ -66,6 +73,9 @@ const props = defineProps({
 const show = ref(false);
 let timer = null;
 
+/**
+ * Starting the timer for the notification and shows the notification.
+ */
 const startTimer = () => {
   show.value = true;
   timer = setTimeout(() => {
@@ -73,10 +83,16 @@ const startTimer = () => {
   }, props.duration);
 };
 
+/**
+ * A lifecycle hook that starts the timer when the component is mounted.
+ */
 onMounted(() => {
   startTimer();
 });
 
+/**
+ * A lifecycle hook that clears the timer when the component is unmounted.
+ */
 onUnmounted(() => {
   if (timer) clearTimeout(timer);
 });

@@ -114,7 +114,7 @@
               :key="product.id"
               class="px-6 py-4 text-center"
             >
-            <button
+              <button
                 @click="removeFromComparison(product.id)"
                 class="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
               >
@@ -141,14 +141,28 @@ import { computed } from "vue";
 import { useComparisonStore } from "../store/ComparisonStore";
 import StarRating from "./StarRating.vue";
 
+/**
+ * A component that displays a product comparison table, allowing users to compare selected products.
+ */
 const comparisonStore = useComparisonStore();
 
+/**
+ * The list of products currently in the comparison list.
+ */
 const comparisonList = computed(() => comparisonStore.comparisonList);
 
+/**
+ * Removes a product from the comparison list.
+ *
+ * @param {number} productId - The ID of the product to be removed from the comparison list.
+ */
 const removeFromComparison = (productId) => {
   comparisonStore.removeFromComparison(productId);
 };
 
+/**
+ * Clears the entire comparison list.
+ */
 const clearComparison = () => {
   comparisonStore.clearComparison();
 };
